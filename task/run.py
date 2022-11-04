@@ -2,6 +2,7 @@ from psychopy import visual, core, event
 from psychtoolbox import WaitSecs
 from events import EventMarker
 from functions import *
+import RTBox
 
 # constants
 TONE_DIR = 'tones'
@@ -24,44 +25,65 @@ WIN = visual.Window(size = (1920, 1080),
     allowGUI = False)
 KB = get_keyboard('Dell Dell USB Entry Keyboard')
 MARKER = EventMarker()
-
-# open log file
+box = RTBox.RTBox()
+box.buttonNames(['1', '1', '1', '1'])
 LOG = open_log(SUB_NUM, BLOCK_NUM)
-seq_num = get_seq_num(LOG)
-score = get_score(LOG)
-score_needed = get_score_needed(BLOCK_NUM)
 
-# have subj listen the tones and display instructions if training block
-start(BLOCK_NUM, WIN, TONE_LEN, FREQS)
+# # have subj listen the tones and display instructions if training block
+# start(BLOCK_NUM, WIN, TONE_LEN, FREQS)
 
-# play sequences until SCORE_NEEDED is reached
-while score < score_needed:
-    target = get_target(FREQS)
-    n_tones = get_n_tones(SEQ_LENS)
+SEED = int(SUB_NUM + "0" + BLOCK_NUM)
+random.seed(SEED)
 
-    # Play target
-    n_target_plays = play_target(WIN, TONE_LEN, target)
-    ready(WIN)
-    WaitSecs(1)
-
-    # Play tones
-    fixation(WIN)
-    WaitSecs(1)
-    tone_nums, freqs, marks, is_targets, n_targets = play_sequence(MARKER, FREQS, TONE_LEN, target, n_tones)
-    WIN.flip()
-    WaitSecs(0.5)
-
-    # Get response
-    response = get_response(WIN)
-    correct, score = update_score(WIN, n_targets, response, score, score_needed)
-
-    # Write log file
-    write_log(LOG, n_tones, SEED, SUB_NUM, BLOCK_NUM, seq_num, target, n_target_plays, tone_nums,
-              freqs, marks, is_targets, n_targets, response, correct, score)
+for seq_num in range(N_SEQS):
+    # Randomize stream and target
+    stream = get_stream()
+    target = get_target()
     
-    seq_num += 1
-    print(f'seq_num: {seq_num}')
-    WaitSecs(1)
+    # Get weights for tones to select from
+    tones = get_tone_array(target)
+    weights = get_tone_weights(stream, target, tones, False)
+    no_target_weights = get_tone_weights(stream, target, tones, True)
+    tone_id = get_is_target(tones, stream, target)
+    
+    tone_nums = []
+    left_freq = []
+    right_freq = []
+    is_targets = []
+    rts = []
+
+    cannot_be_target = True
+    for tone_num in range(1, SEQ_LEN + 1):
+        fixation(WIN)
+        
+        tone, is_target = get_tone(tones, tone_id, weights, no_target_weights, cannot_be_target)
+        tone_fname = get_tone_fname(tone)
+        rt = play_tone(ISI, tone_fname)
+        cannot_be_target = is_target
+
+        tone_nums.append(tone_num)
+        left_freq.append(tone[0])
+        right_freq.append(tone[1])
+        is_targets.append(is_target)
+        rts.append(rt)
+        
+        WIN.flip()
+        
+        # Give feedback
+        
+    write_log(LOG,
+              SEQ_LEN,
+              SEED, 
+              SUB_NUM,
+              BLOCK_NUM,
+              seq_num,
+              stream, 
+              target, 
+              tone_nums,
+              left_freq, 
+              right_freq, 
+              is_targets,
+              rts)
 
 print("Block over.")
 

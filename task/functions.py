@@ -47,43 +47,43 @@ def open_log(SUB_NUM, BLOCK_NUM):
         df.to_csv(log, mode='w', index = False)
     return(log)
 
-def get_seq_num(LOG):
-    log = pd.read_csv(LOG)
-    seq_nums = log['seq_num']
-    if len(seq_nums) == 0:
-        seq_num = 0
-    else:
-        seq_num = seq_nums.iloc[-1]
-    seq_num = int(seq_num)
-    print(f"seq_num: {seq_num}")
-    return(seq_num)
+# def get_seq_num(LOG):
+#     log = pd.read_csv(LOG)
+#     seq_nums = log['seq_num']
+#     if len(seq_nums) == 0:
+#         seq_num = 0
+#     else:
+#         seq_num = seq_nums.iloc[-1]
+#     seq_num = int(seq_num)
+#     print(f"seq_num: {seq_num}")
+#     return(seq_num)
 
-def get_score(LOG):
-    log = pd.read_csv(LOG)
-    scores = log['score']
-    if len(scores) == 0:
-        score = 0
-    else:
-        score = scores.iloc[-1]
-    score = int(score)
-    print(f"score: {score}")
-    return(score)
+# def get_score(LOG):
+#     log = pd.read_csv(LOG)
+#     scores = log['score']
+#     if len(scores) == 0:
+#         score = 0
+#     else:
+#         score = scores.iloc[-1]
+#     score = int(score)
+#     print(f"score: {score}")
+#     return(score)
 
-def get_score_needed(BLOCK_NUM):
-    if BLOCK_NUM == "0":
-        score_needed = 3
-    else:
-        score_needed = 18
-    return(score_needed)
+# def get_score_needed(BLOCK_NUM):
+#     if BLOCK_NUM == "0":
+#         score_needed = 3
+#     else:
+#         score_needed = 18
+#     return(score_needed)
 
-def get_target(FREQS):
-    target = random.choice(FREQS)
-    print(f"target: {target}")
-    return(target)
+# def get_target(FREQS):
+#     target = random.choice(FREQS)
+#     print(f"target: {target}")
+#     return(target)
 
-def get_n_tones(SEQ_LENS):
-    n_tones = random.choice(SEQ_LENS)
-    return(n_tones)
+# def get_n_tones(SEQ_LENS):
+#     n_tones = random.choice(SEQ_LENS)
+#     return(n_tones)
 
 def fixation(WIN):
     fixation = visual.TextStim(WIN, '+')
@@ -197,29 +197,29 @@ def welcome(WIN, BLOCK_NUM):
     WIN.flip()
     event.waitKeys(keyList = ['return'])
 
-def play_target(WIN, TONE_LEN, target):
-    t_snd = Sound(target, secs = TONE_LEN)
+# def play_target(WIN, TONE_LEN, target):
+#     t_snd = Sound(target, secs = TONE_LEN)
 
-    target_text = visual.TextStim(WIN,
-                                  text = "Press 'space' to hear the target tone. Press 'enter' to continue",
-                                  pos=(0.0, 0.0),
-                                  color=(1, 1, 1),
-                                  colorSpace='rgb')
-    target_text.draw()
-    WIN.flip()
-    target_played = False
-    n_target_plays = 0
-    while True:
-        keys = event.getKeys(keyList = ['space', 'return'])
-        if 'space' in keys:
-            t_snd.play()
-            target_played = True
-            n_target_plays += 1
-            print('Target played')
-        elif 'return' in keys and target_played:
-            break
+#     target_text = visual.TextStim(WIN,
+#                                   text = "Press 'space' to hear the target tone. Press 'enter' to continue",
+#                                   pos=(0.0, 0.0),
+#                                   color=(1, 1, 1),
+#                                   colorSpace='rgb')
+#     target_text.draw()
+#     WIN.flip()
+#     target_played = False
+#     n_target_plays = 0
+#     while True:
+#         keys = event.getKeys(keyList = ['space', 'return'])
+#         if 'space' in keys:
+#             t_snd.play()
+#             target_played = True
+#             n_target_plays += 1
+#             print('Target played')
+#         elif 'return' in keys and target_played:
+#             break
 
-    return(n_target_plays)
+#     return(n_target_plays)
 
 def ready(WIN):
     block_begin = visual.TextStim(WIN,
@@ -232,50 +232,50 @@ def ready(WIN):
     event.waitKeys(keyList = ['return'])
     WIN.flip()
 
-def play_sequence(MARKER, FREQS, TONE_LEN, target, n_tones):
-    n_targets = 0
-    force = False
-    one_back = 0
-    two_back = 0
+# def play_sequence(MARKER, FREQS, TONE_LEN, target, n_tones):
+#     n_targets = 0
+#     force = False
+#     one_back = 0
+#     two_back = 0
 
-    # play first tone
-    tone_nums, freqs, marks, is_targets = play_first_tone(MARKER, TONE_LEN, FREQS, target)
+#     # play first tone
+#     tone_nums, freqs, marks, is_targets = play_first_tone(MARKER, TONE_LEN, FREQS, target)
 
-    for tone_num in range(2, n_tones + 1):
-        print(tone_num, end = ', ', flush = True)
+#     for tone_num in range(2, n_tones + 1):
+#         print(tone_num, end = ', ', flush = True)
 
-        # select tone
-        if not force:
-            i = random.randint(0, len(FREQS)-1)
-        freq = FREQS[i]
-        mark = get_mark(FREQS, i, target)
-        snd = Sound(freq, secs = TONE_LEN)
+#         # select tone
+#         if not force:
+#             i = random.randint(0, len(FREQS)-1)
+#         freq = FREQS[i]
+#         mark = get_mark(FREQS, i, target)
+#         snd = Sound(freq, secs = TONE_LEN)
 
-        # increment
-        is_target, n_targets = check_target(freq, target, n_targets)
+#         # increment
+#         is_target, n_targets = check_target(freq, target, n_targets)
 
-        # schedule sound
-        now = GetSecs()
-        snd.play(when = now + 0.1)
-        WaitSecs(0.1)
-        MARKER.send(mark)
-        WaitSecs(TONE_LEN - 0.1)
+#         # schedule sound
+#         now = GetSecs()
+#         snd.play(when = now + 0.1)
+#         WaitSecs(0.1)
+#         MARKER.send(mark)
+#         WaitSecs(TONE_LEN - 0.1)
 
-        # add jitter between tones
-        WaitSecs(TONE_LEN + random.uniform(-0.1, 0))
+#         # add jitter between tones
+#         WaitSecs(TONE_LEN + random.uniform(-0.1, 0))
 
-        # save tone info
-        tone_nums.append(tone_num)
-        freqs.append(freq)
-        marks.append(mark)
-        is_targets.append(is_target)
+#         # save tone info
+#         tone_nums.append(tone_num)
+#         freqs.append(freq)
+#         marks.append(mark)
+#         is_targets.append(is_target)
 
-        # check for repeats
-        force, i, one_back, two_back = check_repeats(FREQS, freq, one_back, two_back)
+#         # check for repeats
+#         force, i, one_back, two_back = check_repeats(FREQS, freq, one_back, two_back)
 
-    print('')
-    print(f"n_targets: {n_targets}")
-    return(tone_nums, freqs, marks, is_targets, n_targets)
+#     print('')
+#     print(f"n_targets: {n_targets}")
+#     return(tone_nums, freqs, marks, is_targets, n_targets)
 
 def get_mark(FREQS, i, target):
     tone_mark = i + 1
@@ -283,160 +283,289 @@ def get_mark(FREQS, i, target):
     mark = int(str(target_mark) + str(tone_mark))
     return(mark)
 
-def play_first_tone(MARKER, TONE_LEN, FREQS, target):
-    print('1', end = ', ', flush = True)
+# def play_first_tone(MARKER, TONE_LEN, FREQS, target):
+#     print('1', end = ', ', flush = True)
 
-    drop = FREQS.index(target)
-    indexes = [0, 1, 2]
-    indexes.pop(drop)
-    i = random.choice(indexes)
-    freq = FREQS[i]
-    mark = get_mark(FREQS, i, target)
+#     drop = FREQS.index(target)
+#     indexes = [0, 1, 2]
+#     indexes.pop(drop)
+#     i = random.choice(indexes)
+#     freq = FREQS[i]
+#     mark = get_mark(FREQS, i, target)
 
-    # schedule sound
-    now = GetSecs()
-    snd = Sound(freq, secs = TONE_LEN)
+#     # schedule sound
+#     now = GetSecs()
+#     snd = Sound(freq, secs = TONE_LEN)
+#     snd.play(when = now + 0.1)
+#     WaitSecs(0.1)
+#     MARKER.send(mark)
+#     WaitSecs(TONE_LEN - 0.1)
+
+#     # Add jitter between tones
+#     WaitSecs(TONE_LEN + random.uniform(-0.1, 0))
+
+#     tone_nums = [1]
+#     freqs = [freq]
+#     marks = [mark]
+#     is_targets = [0]
+
+#     return(tone_nums, freqs, marks, is_targets)
+
+# def check_target(freq, target, n_targets):
+#     if freq == target:
+#         is_target = 1
+#         n_targets += 1
+#     else:
+#         is_target = 0
+#     return(is_target, n_targets)
+
+# def check_repeats(FREQS, freq, one_back, two_back):
+#     if freq == one_back == two_back:
+#         force = True
+#         drop = FREQS.index(freq)
+#         indexes = [0, 1, 2]
+#         indexes.pop(drop)
+#         i = random.choice(indexes)
+#     else:
+#         force = False
+#         i = None
+#     two_back = one_back
+#     one_back = freq
+#     return(force, i, one_back, two_back)
+
+# def broadcast(n_tones, var):
+#     if not isinstance(var, list):
+#         broadcasted_array = [var]*n_tones
+#     return(broadcasted_array)
+
+# def write_log(LOG, n_tones, SEED, SUB_NUM, BLOCK_NUM, seq_num, target, n_target_plays, tone_nums,
+#               freqs, marks, is_targets, n_targets, response, correct, score):
+#     print("Writing to log file")
+#     d = {
+#         'seed': broadcast(n_tones, SEED),
+#         'sub_num': broadcast(n_tones, SUB_NUM),
+#         'block_num': broadcast(n_tones, BLOCK_NUM),
+#         'seq_num': broadcast(n_tones, seq_num),
+#         'target': broadcast(n_tones, target),
+#         'n_target_plays': broadcast(n_tones, n_target_plays),
+#         'tone_num' : tone_nums,
+#         'freq': freqs,
+#         'mark': marks,
+#         'is_target': is_targets,
+#         'n_targets': broadcast(n_tones, n_targets),
+#         'response': broadcast(n_tones, response),
+#         'correct': broadcast(n_tones, correct),
+#         'score': broadcast(n_tones, score),
+#         }
+#     df = pd.DataFrame(data = d)
+#     df.to_csv(LOG, mode='a', header = False, index = False)
+
+# def get_response(WIN):
+#     # Prompt response
+#     ask_response = visual.TextStim(WIN,
+#                       text = "How many times did you hear the target tone?",
+#                       pos=(0.0, 0.0),
+#                       color=(1, 1, 1),
+#                       colorSpace='rgb')
+#     ask_response.draw()
+#     WIN.flip()
+
+#     # Fetch response
+#     keylist = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'return', 'backspace']
+#     response = []
+#     response_text = ''
+
+#     while True:
+#         keys = event.getKeys(keyList = keylist)
+#         if response_text and 'return' in keys: # empty response not accepted
+#             break
+#         elif keys:
+#             if 'return' in keys:
+#                 None
+#             elif 'backspace' in keys:
+#                 response = response[:-1]
+#             else:
+#                 response.append(keys)
+#             response_text = ''.join([item for sublist in response for item in sublist])
+#             WIN.flip()
+#             show_response = visual.TextStim(WIN,
+#                                            text = response_text,
+#                                            pos=(0.0, 0.0),
+#                                            color=(1, 1, 1),
+#                                            colorSpace='rgb')
+#             show_response.draw()
+#             WIN.flip()
+
+#     response = int(response_text)
+#     print(f"response: {response}")
+#     return(response)
+
+# def update_score(WIN, n_targets, response, score, SCORE_NEEDED):
+#     if abs(n_targets - response) == 0:
+#         correct = 2
+#         score += 1
+#         update = visual.TextStim(WIN,
+#                   text = f"You are correct! There were {n_targets} targets. Your score is now {score}/{SCORE_NEEDED}. Press 'enter' to continue.",
+#                   pos=(0.0, 0.0),
+#                   color=(1, 1, 1),
+#                   colorSpace='rgb'
+#                  )
+#     elif abs(n_targets - response) <= 2:
+#         correct = 1
+#         score += 1
+#         update = visual.TextStim(WIN,
+#                   text = f"Close enough! There were {n_targets} targets. Your score is now {score}/{SCORE_NEEDED}. Press 'enter' to continue.",
+#                   pos=(0.0, 0.0),
+#                   color=(1, 1, 1),
+#                   colorSpace='rgb'
+#                  )
+#     else:
+#         correct = 0
+#         update = visual.TextStim(WIN,
+#                   text = f"There were {n_targets} targets. \
+#                   \
+#                   Your score remains {score}/{SCORE_NEEDED}. \
+#                   \
+#                   Press 'enter' to continue.",
+#                   pos=(0.0, 0.0),
+#                   color=(1, 1, 1),
+#                   colorSpace='rgb'
+#                  )
+
+#     update.draw()
+#     WIN.flip()
+
+#     event.waitKeys(keyList = ['return'])
+#     WIN.flip()
+
+#     print(f'score: {score}')
+#     return(correct, score)
+
+def play_tone(ISI, tone_fpath):
+    t0 = boxSecs()
+    snd = Sound(tone_fpath)
     snd.play(when = now + 0.1)
     WaitSecs(0.1)
     MARKER.send(mark)
-    WaitSecs(TONE_LEN - 0.1)
-
-    # Add jitter between tones
-    WaitSecs(TONE_LEN + random.uniform(-0.1, 0))
-
-    tone_nums = [1]
-    freqs = [freq]
-    marks = [mark]
-    is_targets = [0]
-
-    return(tone_nums, freqs, marks, is_targets)
-
-def check_target(freq, target, n_targets):
-    if freq == target:
-        is_target = 1
-        n_targets += 1
+    
+    (secs, btns) = box.secs(0.6) # read response, 0.6 secs
+    if len(secs) < 1:
+        rt = 'NaN'
     else:
-        is_target = 0
-    return(is_target, n_targets)
+        rt = secs[0] - t0
+    WaitSecs(0.6 - rt)
+    
+    return(rt)
 
-def check_repeats(FREQS, freq, one_back, two_back):
-    if freq == one_back == two_back:
-        force = True
-        drop = FREQS.index(freq)
-        indexes = [0, 1, 2]
-        indexes.pop(drop)
-        i = random.choice(indexes)
+def get_target():
+    target = random.choice([130, 200, 280])
+    return(target)
+
+# Get list of tone files to play
+def get_tone_array(target):
+    tones = [[130, 130],
+             [130, 200],
+             [130, 280],
+             [200, 130],
+             [200, 200],
+             [200, 280],
+             [280, 130],
+             [280, 200],
+             [280, 280]]
+    tones.remove([target, target])
+    tones = np.array(tones)
+    return(tones)
+
+def get_is_target(tones, stream, target):
+    if stream == 'l':
+        distractors = tones[:, 0]
+    elif stream == 'r':
+        distractors = tones[:, 1]
+    is_target = [x == target for x in distractors]
+    return(is_target)
+
+def get_n_targets(n_targets_min, n_targets_max):
+    n_targets = random.randint(n_targets_min, n_targets_max)
+    return(n_targets)
+
+def get_stream():
+    stream = random.choice(['r', 'l'])
+    return(stream)
+
+def get_tone_fname(tone_array):
+    left_freq = tone_array[0]
+    right_freq = tone_array[1]
+    fname = "tones/left_" + str(left_freq) + "_right_" + str(right_freq) + ".wav"
+    return(fname)
+
+def _replaceitem(x, target, no_targets):
+    if x == target:
+        if no_targets:
+            return(0)
+        else:
+            return(1)
     else:
-        force = False
-        i = None
-    two_back = one_back
-    one_back = freq
-    return(force, i, one_back, two_back)
+        return(2)
+
+def get_tone_weights(stream, target, tones, no_targets):
+    if stream == 'l':
+        distractors = tones[:, 0]
+    elif stream == 'r':
+        distractors = tones[:, 1]
+    weights = list(map(_replaceitem, distractors, [target] * len(distractors), [no_targets] * len(distractors)))
+    return(weights)
+
+def get_tone(tones, tone_id, weights, no_target_weights, cannot_be_target):
+    if cannot_be_target:
+        i = random.choices(range(len(tones)), no_target_weights)[0]
+    else:
+        i = random.choices(range(len(tones)), weights)[0]
+    tone = tones[i]
+    is_target = tone_id[i]
+    print(tone)
+    print(is_target)
+    return(tone, is_target)    
 
 def broadcast(n_tones, var):
     if not isinstance(var, list):
         broadcasted_array = [var]*n_tones
     return(broadcasted_array)
 
-def write_log(LOG, n_tones, SEED, SUB_NUM, BLOCK_NUM, seq_num, target, n_target_plays, tone_nums,
-              freqs, marks, is_targets, n_targets, response, correct, score):
+def open_log(SUB_NUM, BLOCK_NUM):
+    log = "../data/logs/sub-" + SUB_NUM + "_blk-" + BLOCK_NUM + ".log"
+    if not os.path.isfile(log): # create log file if it doesn't exist
+        print(f"Creating {log}")
+        d = {
+                'seed': [],
+                'sub_num': [],
+                'block_num': [],
+                'seq_num': [],
+                'stream': [],
+                'target': [],
+                'tone_num' : [],
+                'left_freq' : [],
+                'right_freq' : [],
+                'is_target' : [],
+                'rt' : [],
+            }
+        df = pd.DataFrame(data = d)
+        df.to_csv(log, mode='w', index = False)
+    return(log)
+
+def write_log(LOG, SEQ_LEN, seed, sub_num, block_num, seq_num, stream, target, tone_num, left_freq, right_freq, is_target, rt):
     print("Writing to log file")
     d = {
-        'seed': broadcast(n_tones, SEED),
-        'sub_num': broadcast(n_tones, SUB_NUM),
-        'block_num': broadcast(n_tones, BLOCK_NUM),
-        'seq_num': broadcast(n_tones, seq_num),
-        'target': broadcast(n_tones, target),
-        'n_target_plays': broadcast(n_tones, n_target_plays),
+        'seed': broadcast(SEQ_LEN, seed),
+        'sub_num': broadcast(SEQ_LEN, sub_num),
+        'block_num': broadcast(SEQ_LEN, block_num),
+        'seq_num': broadcast(SEQ_LEN, seq_num),
+        'stream': broadcast(SEQ_LEN, stream),
+        'target': broadcast(SEQ_LEN, target),
         'tone_num' : tone_nums,
-        'freq': freqs,
-        'mark': marks,
-        'is_target': is_targets,
-        'n_targets': broadcast(n_tones, n_targets),
-        'response': broadcast(n_tones, response),
-        'correct': broadcast(n_tones, correct),
-        'score': broadcast(n_tones, score),
-        }
+        'left_freq' : left_freq,
+        'right_freq' : right_freq,
+        'is_target' : is_target,
+        'rt' : rt,
+    }
     df = pd.DataFrame(data = d)
     df.to_csv(LOG, mode='a', header = False, index = False)
-
-def get_response(WIN):
-    # Prompt response
-    ask_response = visual.TextStim(WIN,
-                      text = "How many times did you hear the target tone?",
-                      pos=(0.0, 0.0),
-                      color=(1, 1, 1),
-                      colorSpace='rgb')
-    ask_response.draw()
-    WIN.flip()
-
-    # Fetch response
-    keylist = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'return', 'backspace']
-    response = []
-    response_text = ''
-
-    while True:
-        keys = event.getKeys(keyList = keylist)
-        if response_text and 'return' in keys: # empty response not accepted
-            break
-        elif keys:
-            if 'return' in keys:
-                None
-            elif 'backspace' in keys:
-                response = response[:-1]
-            else:
-                response.append(keys)
-            response_text = ''.join([item for sublist in response for item in sublist])
-            WIN.flip()
-            show_response = visual.TextStim(WIN,
-                                           text = response_text,
-                                           pos=(0.0, 0.0),
-                                           color=(1, 1, 1),
-                                           colorSpace='rgb')
-            show_response.draw()
-            WIN.flip()
-
-    response = int(response_text)
-    print(f"response: {response}")
-    return(response)
-
-def update_score(WIN, n_targets, response, score, SCORE_NEEDED):
-    if abs(n_targets - response) == 0:
-        correct = 2
-        score += 1
-        update = visual.TextStim(WIN,
-                  text = f"You are correct! There were {n_targets} targets. Your score is now {score}/{SCORE_NEEDED}. Press 'enter' to continue.",
-                  pos=(0.0, 0.0),
-                  color=(1, 1, 1),
-                  colorSpace='rgb'
-                 )
-    elif abs(n_targets - response) <= 2:
-        correct = 1
-        score += 1
-        update = visual.TextStim(WIN,
-                  text = f"Close enough! There were {n_targets} targets. Your score is now {score}/{SCORE_NEEDED}. Press 'enter' to continue.",
-                  pos=(0.0, 0.0),
-                  color=(1, 1, 1),
-                  colorSpace='rgb'
-                 )
-    else:
-        correct = 0
-        update = visual.TextStim(WIN,
-                  text = f"There were {n_targets} targets. \
-                  \
-                  Your score remains {score}/{SCORE_NEEDED}. \
-                  \
-                  Press 'enter' to continue.",
-                  pos=(0.0, 0.0),
-                  color=(1, 1, 1),
-                  colorSpace='rgb'
-                 )
-
-    update.draw()
-    WIN.flip()
-
-    event.waitKeys(keyList = ['return'])
-    WIN.flip()
-
-    print(f'score: {score}')
-    return(correct, score)
