@@ -8,7 +8,7 @@ import RTBox
 SUB_NUM = input("Input subject number: ")
 BLOCK_NUM = input("Input block number: ")
 
-# set up keyboard, window and RTBox
+# set up
 set_seed(SUB_NUM, BLOCK_NUM, seq_num)
 WIN = get_window()
 MARKER = EventMarker()
@@ -43,6 +43,7 @@ while seq_num <= n_seqs:
     is_targets = []
     rts = []
     hits = []
+    misses = []
     false_alarms = []
     
     # Play target
@@ -55,7 +56,7 @@ while seq_num <= n_seqs:
         tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weights, cannot_be_target)
         tone_fname = get_tone_fname(tone)
         rt = play_tone(MARKER, tone_fname)
-        hit, false_alarm = grade(rt, target)
+        hit, miss, false_alarm = grade(rt, target)
         cannot_be_target = is_target # Make sure targets can't play consecutively
 
         tone_nums.append(tone_num)
@@ -65,13 +66,14 @@ while seq_num <= n_seqs:
         is_targets.append(is_target)
         rts.append(rt)
         hits.append(hit)
+        misses.append(miss)
         false_alarms.append(false_alarm)
         
         WIN.flip()
         
     # Give feedback
-    reward = compute_reward(reward)
-    give_feedback(hits, false_alarms, reward)
+    reward = compute_reward(hits, misses, false_alarms, reward)
+    give_feedback(hits, misses, false_alarms, reward)
         
     write_log(LOG,
               SEQ_LEN,
@@ -88,6 +90,7 @@ while seq_num <= n_seqs:
               is_targets,
               rts,
               hits,
+              misses,
               false_alarms,
               reward)
     seq_num += 1
