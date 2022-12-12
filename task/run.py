@@ -19,7 +19,7 @@ seq_num = get_seq_num(LOG)
 n_seqs = get_n_seqs(BLOCK_NUM)
 reward = 0
 
-# have subj listen the tones and display instructions if training block
+# have subj listen to the tones and display instructions if training block
 start(BLOCK_NUM, WIN, TONE_LEN, FREQS)
 
 while seq_num <= n_seqs:

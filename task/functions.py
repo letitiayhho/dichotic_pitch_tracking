@@ -84,90 +84,51 @@ def start(BLOCK_NUM, WIN, TONE_LEN, FREQS):
         instructions(WIN)
     else:
         block_welcome(WIN, BLOCK_NUM)
-
-def instructions_1(WIN, TONE_LEN):
-    p1 = Sound(130, secs = 0.3)
-    p2 = Sound(200, secs = 0.3)
-    p3 = Sound(280, secs = 0.3)
+        
+def play_instruction_tone(stream, order, freq):
+    s = Sound(f"tones/{stream}_{str(freq)}.wav")
+    txt = visual.TextStim(WIN, text = f"Press 'enter' to hear the {order} tone in your {stream} ear")
+    event.clearEvents(eventType = None)
+    txt.draw()
+    WIN.flip()
+    event.waitKeys(keyList = ['return'])
+    s.play()
+    WaitSecs(1)
     
-    welcome = visual.TextStim(WIN, text = "Welcome to the experiment. Press 'enter' to begin.")
-    welcome.draw()
+def display_instructions(WIN, text):
+    instructions = visual.TextStim(WIN, text = text)
+    instructions.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
-    core.wait(1)
+    print(text)
 
-    p1_txt = visual.TextStim(WIN, text = "In each trial for this task you will hear different sequences of tones simultaneously in both ears. ")
-                             
-                            // you will be presented with random sequences of three tones. You will now hear the three tones. Press 'enter' to hear the first tone.")
-    p1_txt.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    p1.play()
-    core.wait(1)
-
-    p2_txt = visual.TextStim(WIN, text = "Press 'enter' to hear the second tone.")
-
-    event.clearEvents(eventType = None)
-    p2_txt.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    p2.play()
-    core.wait(1)
-
-    p3_txt = visual.TextStim(WIN, text = "Press 'enter' to hear the third tone.",)
-
-    event.clearEvents(eventType = None)
-    p3_txt.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    p3.play()
-    core.wait(1)
-
-    instruction_text = visual.TextStim(WIN, text = "In each trial of this experiment, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like. This target tone will then be played amidst a sequence of the other two tones. Your task is to count and remember how many times you hear the target tone in the sequence. Press 'enter' for the remaining instructions…")
-    instruction2_text = visual.TextStim(WIN, text = "You will be asked how many times you heard the target tone at the end of a sequence and if you accurately report the number of target tones–or come close to the actual number of target tones–your 'score' will increase by 1. To finish each block, you will have to reach a score of 18. Please ask your experimenter any questions you may have about the task. Press 'enter' to continue…")
-    instruction3_text = visual.TextStim(WIN, text = "It is important for you not to move your eyes or blink while the tones are playing. We also ask that you hold the rest of your body as still as possible. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and hold as still as you can while the cross is on the screen. Press 'enter' to continue...")
-    instruction4_text = visual.TextStim(WIN, text = "You will now complete a series of practice trials where you will try to reach a score of 3. Press 'enter' to continue to the first training trials...")
-    instruction_text.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    print('instruction1')
-
-    event.clearEvents(eventType = None)
-    instruction2_text.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    WIN.flip()
-    print('instruction2')
-
-    event.clearEvents(eventType = None)
-    instruction3_text.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    WIN.flip()
-    print('instruction3')
-
-    event.clearEvents(eventType = None)
-    instruction4_text.draw()
-    WIN.flip()
-    event.waitKeys(keyList = ['return'])
-    WIN.flip()
-    print('instruction4')
+def instructions(WIN):
+    display_instructions(WIN, "Welcome to the experiment. Press 'enter' to begin.")
+    display_instructions(WIN, "In each trial for this task you will hear different sequences of tones simultaneously in both ears. The sequences will consist of three different tones, and you will either be asked to pay attention to either the sequence in your left or your right ear. Press 'enter' to hear those tones…")
+    
+    play_instruction_tones('left', 'first', '130')
+    play_instruction_tones('left', 'first', '200')
+    play_instruction_tones('left', 'first', '280')
+    play_instruction_tones('right', 'first', '130')
+    play_instruction_tones('right', 'first', '200')
+    play_instruction_tones('right', 'first', '280')
+    
+    display_instructions(WIN, text = "For each sequence of tones one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like. Your task is to count and remember how many times you hear the target tone in the sequence. Press 'enter' for the remaining instructions…")
+    display_instructions(WIN, text = "At the end of the sequence you will be asked to report how many times you heard the target sequence. If are correct or close enough you will receive an extra $0.10 at the end of the experiment. Press 'enter' for the remaining instructions…")
+    display_instructions(WIN, text = "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and hold as still as you can while the cross is on the screen. Press 'enter' for the remaining instructions…")
+    display_instructions(WIN, text = "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. Press 'enter' to continue to the practice trials…")
 
 def block_welcome(WIN, BLOCK_NUM):
-    blk_welcome = visual.TextStim(WIN, text = f"Welcome to block number {BLOCK_NUM}. Press 'enter' to continue.")
+    blk_welcome = visual.TextStim(WIN, text = f"Welcome to block number {BLOCK_NUM}/5. Press 'enter' to continue.")
     blk_welcome.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
     
 def start(BLOCK_NUM, WIN, TONE_LEN, FREQS):
-    if BLOCK_NUM == "0": 
+    if BLOCK_NUM == "0":
         instructions(WIN)
     else:
         block_welcome(WIN, BLOCK_NUM)
-
-# def get_n_targets(n_targets_min, n_targets_max):
-#     n_targets = random.randint(n_targets_min, n_targets_max)
-#     return(n_targets)
 
 def get_stream():
     return(random.choice(['r', 'l']))
