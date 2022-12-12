@@ -78,10 +78,10 @@ def fixation(WIN):
     WIN.flip()
     return(fixation)
 
-def instructions(WIN, TONE_LEN, FREQS):
-    p1 = Sound(FREQS[0], secs = TONE_LEN)
-    p2 = Sound(FREQS[1], secs = TONE_LEN)
-    p3 = Sound(FREQS[2], secs = TONE_LEN)
+def instructions(WIN, TONE_LEN):
+    p1 = Sound(130, secs = 0.3)
+    p2 = Sound(200, secs = 0.3)
+    p3 = Sound(280, secs = 0.3)
     
     welcome = visual.TextStim(WIN,
                             text = "Welcome to the experiment. Press 'enter' to begin.",
@@ -92,7 +92,6 @@ def instructions(WIN, TONE_LEN, FREQS):
     WIN.flip()
     event.waitKeys(keyList = ['return'])
     core.wait(1)
-
 
     p1_txt = visual.TextStim(WIN,
                             text = "In this task you will be presented with random sequences of three tones. You will now hear the three tones. Press 'enter' to hear the first tone.",
@@ -132,25 +131,13 @@ def instructions(WIN, TONE_LEN, FREQS):
     core.wait(1)
 
     instruction_text = visual.TextStim(WIN,
-                                      text = "In each trial of this experiment, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like. This target tone will then be played amidst a sequence of the other two tones. Your task is to count and remember how many times you hear the target tone in the sequence. Press 'enter' for the remaining instructions…",
-                                      pos=(0.0, 0.0),
-                                      color=(1, 1, 1),
-                                      colorSpace='rgb')
+                                      text = "In each trial of this experiment, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like. This target tone will then be played amidst a sequence of the other two tones. Your task is to count and remember how many times you hear the target tone in the sequence. Press 'enter' for the remaining instructions…",)
     instruction2_text = visual.TextStim(WIN,
-                                        text = "You will be asked how many times you heard the target tone at the end of a sequence and if you accurately report the number of target tones–or come close to the actual number of target tones–your 'score' will increase by 1. To finish each block, you will have to reach a score of 18. Please ask your experimenter any questions you may have about the task. Press 'enter' to continue…",
-                                        pos=(0.0, 0.0),
-                                        color=(1, 1, 1),
-                                        colorSpace='rgb')
+                                        text = "You will be asked how many times you heard the target tone at the end of a sequence and if you accurately report the number of target tones–or come close to the actual number of target tones–your 'score' will increase by 1. To finish each block, you will have to reach a score of 18. Please ask your experimenter any questions you may have about the task. Press 'enter' to continue…")
     instruction3_text = visual.TextStim(WIN,
-                                        text = "It is important for you not to move your eyes or blink while the tones are playing. We also ask that you hold the rest of your body as still as possible. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and hold as still as you can while the cross is on the screen. Press 'enter' to continue...",
-                                        pos=(0.0, 0.0),
-                                        color=(1, 1, 1),
-                                        colorSpace='rgb')
+                                        text = "It is important for you not to move your eyes or blink while the tones are playing. We also ask that you hold the rest of your body as still as possible. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and hold as still as you can while the cross is on the screen. Press 'enter' to continue...")
     instruction4_text = visual.TextStim(WIN,
-                                        text = "You will now complete a series of practice trials where you will try to reach a score of 3. Press 'enter' to continue to the first training trials...",
-                                        pos=(0.0, 0.0),
-                                        color=(1, 1, 1),
-                                        colorSpace='rgb')
+                                        text = "You will now complete a series of practice trials where you will try to reach a score of 3. Press 'enter' to continue to the first training trials...")
     instruction_text.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
@@ -352,7 +339,7 @@ def broadcast(n_tones, var):
     return(broadcasted_array)
 
 def write_log(LOG, SEQ_LEN, seed, sub_num, block_num, seq_num, stream, target, 
-              tone_num, left_freq, right_freq, marker, is_target, rt, hit, false_alarm, reward):
+              tone_num, left_freq, right_freq, mark, is_target, rt, hit, false_alarm, reward):
     print("Writing to log file")
     d = {
         'seed': broadcast(SEQ_LEN, seed),
@@ -364,10 +351,10 @@ def write_log(LOG, SEQ_LEN, seed, sub_num, block_num, seq_num, stream, target,
         'tone_num' : tone_nums,
         'left_freq' : left_freq,
         'right_freq' : right_freq,
-        'marker' : markers,
+        'mark' : markers,
         'is_target' : is_target,
         'rt' : rt,
-        'hits' : hit, 
+        'hit' : hit, 
         'false_alarm' : false_alarm,
         'reward': broadcast(SEQ_LEN, target),
     }
