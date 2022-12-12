@@ -10,6 +10,20 @@ from psychtoolbox import GetSecs, WaitSecs, hid
 from psychopy.hardware.keyboard import Keyboard
 from numpy import nan
 
+def set_seed(SUB_NUM, BLOCK_NUM):
+    SEED = int(SUB_NUM + "0" + BLOCK_NUM)
+    print("Current seed: " + str(SEED))
+    random.seed(SEED)
+    
+def get_window():
+    WIN = visual.Window(size = (1920, 1080),
+        screen = -1,
+        units = "norm",
+        fullscr = False,
+        pos = (0, 0),
+        allowGUI = False)
+    return(WIN)
+
 def get_keyboard(dev_name):
     devs = hid.get_keyboard_indices()
     idxs = devs[0]
@@ -48,43 +62,16 @@ def open_log(SUB_NUM, BLOCK_NUM):
         df.to_csv(log, mode='w', index = False)
     return(log)
 
-# def get_seq_num(LOG):
-#     log = pd.read_csv(LOG)
-#     seq_nums = log['seq_num']
-#     if len(seq_nums) == 0:
-#         seq_num = 0
-#     else:
-#         seq_num = seq_nums.iloc[-1]
-#     seq_num = int(seq_num)
-#     print(f"seq_num: {seq_num}")
-#     return(seq_num)
-
-# def get_score(LOG):
-#     log = pd.read_csv(LOG)
-#     scores = log['score']
-#     if len(scores) == 0:
-#         score = 0
-#     else:
-#         score = scores.iloc[-1]
-#     score = int(score)
-#     print(f"score: {score}")
-#     return(score)
-
-# def get_score_needed(BLOCK_NUM):
-#     if BLOCK_NUM == "0":
-#         score_needed = 3
-#     else:
-#         score_needed = 18
-#     return(score_needed)
-
-# def get_target(FREQS):
-#     target = random.choice(FREQS)
-#     print(f"target: {target}")
-#     return(target)
-
-# def get_n_tones(SEQ_LENS):
-#     n_tones = random.choice(SEQ_LENS)
-#     return(n_tones)
+def get_seq_num(LOG):
+    log = pd.read_csv(LOG)
+    seq_nums = log['seq_num']
+    if len(seq_nums) == 0:
+        seq_num = 1
+    else:
+        seq_num = seq_nums.iloc[-1]
+    seq_num = int(seq_num) + 1
+    print(f"seq_num: {seq_num}")
+    return(seq_num)
 
 def fixation(WIN):
     fixation = visual.TextStim(WIN, '+')
@@ -249,7 +236,8 @@ def ready(WIN):
 #         if not force:
 #             i = random.randint(0, len(FREQS)-1)
 #         freq = FREQS[i]
-#         mark = get_mark(FREQS, i, target)
+#         mark = 
+(FREQS, i, target)
 #         snd = Sound(freq, secs = TONE_LEN)
 
 #         # increment
@@ -324,7 +312,7 @@ def get_tone_array(target):
     tones = np.array(tones)
     return(tones)
 
-def get_markers(tones):
+def get_mark(tones):
     tones[tones == 130] = 1
     tones[tones == 200] = 2
     tones[tones == 280] = 3
