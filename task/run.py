@@ -9,7 +9,7 @@ SUB_NUM = input("Input subject number: ")
 BLOCK_NUM = input("Input block number: ")
 
 # set up
-set_seed(SUB_NUM, BLOCK_NUM, seq_num)
+SEED = set_seed(SUB_NUM, BLOCK_NUM, seq_num)
 WIN = get_window()
 MARKER = EventMarker()
 box = RTBox.RTBox()
@@ -76,7 +76,7 @@ while seq_num <= n_seqs:
     give_feedback(hits, misses, false_alarms, reward)
         
     write_log(LOG,
-              SEQ_LEN,
+              seq_len,
               SEED, 
               SUB_NUM,
               BLOCK_NUM,
@@ -94,7 +94,9 @@ while seq_num <= n_seqs:
               false_alarms,
               reward)
     seq_num += 1
-    
+
+end(BLOCK_NUM)
+
 print("Block over.")
 
 core.quit()

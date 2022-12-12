@@ -14,6 +14,7 @@ def set_seed(SUB_NUM, BLOCK_NUM):
     SEED = int(SUB_NUM + "0" + BLOCK_NUM)
     print("Current seed: " + str(SEED))
     random.seed(SEED)
+    return(SEED)
     
 def get_window():
     WIN = visual.Window(size = (1920, 1080),
@@ -77,7 +78,7 @@ def get_n_seqs(BLOCK_NUM):
     if BLOCK_NUM == "0":
         n_seqs = 3
     else:
-        n_seqs = 18
+        n_seqs = 16
     return(n_seqs)
 
 def start(BLOCK_NUM, WIN, TONE_LEN, FREQS):
@@ -114,11 +115,11 @@ def instructions(WIN):
     play_instruction_tones('right', 'first', '200')
     play_instruction_tones('right', 'first', '280')
 
-    display_instructions(WIN, text = "For each sequence of tones one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like before the trial begins. Every time you hear a target tone, press any botton on the response box as quickly as you can. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, text = "Pay attention to whether the tone plays on your left or right side, you will be listening only to the tones on that side. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, text = "You will receive an extra $0.05 for every tone you correctly identify as a target, and lose $0.05 for every tone you miss or mistakenly identify as the target. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, text = "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and stay relaxed while the cross is on the screen. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, text = "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. Press 'enter' to continue to the practice trials.")
+    display_instructions(WIN, "For each sequence of tones one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like before the trial begins. Every time you hear a target tone, press any botton on the response box as quickly as you can. Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "Pay attention to whether the tone plays on your left or right side, you will be listening only to the tones on that side. Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "You will receive an extra $0.05 for every tone you correctly identify as a target, and lose $0.05 for every tone you miss or mistakenly identify as the target. Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the tone sequence. Keep your gaze on the fixation cross and stay relaxed while the cross is on the screen. Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. Press 'enter' to continue to the practice trials.")
 
 def block_welcome(WIN, BLOCK_NUM):
     display_instructions(WIN, f"Welcome to block number {BLOCK_NUM}/5. Press 'enter' to continue.")
@@ -129,7 +130,7 @@ def start(BLOCK_NUM, WIN, TONE_LEN, FREQS):
         instructions(WIN)
     else:
         block_welcome(WIN, BLOCK_NUM)
-
+        
 def get_stream():
     return(random.choice(['r', 'l']))
 
@@ -137,7 +138,7 @@ def get_target():
     return(random.choice([130, 200, 280]))
 
 def get_seq_len():
-    return(random.choice([32, 40, 48])
+    return(random.choice([36, 42, 48])
 
 def _replaceitem(x, target, no_targets):
     if x == target:
@@ -286,7 +287,7 @@ def broadcast(n_tones, var):
         broadcasted_array = [var]*n_tones
     return(broadcasted_array)
 
-def write_log(LOG, SEQ_LEN, seed, sub_num, block_num, seq_num, stream, target, 
+def write_log(LOG, SEQ_LEN, SEED, SUB_NUM, BLOCK_NUM, seq_num, stream, target, 
               tone_num, left_freq, right_freq, mark, is_target, rt, hit, miss, false_alarm, reward):
     print("Writing to log file")
     d = {
@@ -309,3 +310,9 @@ def write_log(LOG, SEQ_LEN, seed, sub_num, block_num, seq_num, stream, target,
     }
     df = pd.DataFrame(data = d)
     df.to_csv(LOG, mode='a', header = False, index = False)
+
+def end(BLOCK_NUM):
+   if BLOCK_NUM == "0":
+       display_instructions(WIN, "Congratulations for finishing the practice block. Your experimenter will now come in to check on you, let them know if you have any questions or if you would like to repeat this practice block. If you are ready you will now move on to the 5 experiment blocks, each of which will have 16 trials.")
+   else:
+       display_instructions(WIN, "End of block! Your experimenter will now come and check on you.")
