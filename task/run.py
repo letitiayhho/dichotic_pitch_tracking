@@ -42,7 +42,7 @@ for seq in range(N_SEQS - seq_num):
     hits = []
     false_alarms = []
 
-    cannot_be_target = True
+    cannot_be_target = True # First tone cannot be target
     for tone_num in range(1, SEQ_LEN + 1):
         fixation(WIN)
         

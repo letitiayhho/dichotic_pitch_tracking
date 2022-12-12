@@ -185,30 +185,6 @@ def welcome(WIN, BLOCK_NUM):
     WIN.flip()
     event.waitKeys(keyList = ['return'])
 
-# def play_target(WIN, TONE_LEN, target):
-#     t_snd = Sound(target, secs = TONE_LEN)
-
-#     target_text = visual.TextStim(WIN,
-#                                   text = "Press 'space' to hear the target tone. Press 'enter' to continue",
-#                                   pos=(0.0, 0.0),
-#                                   color=(1, 1, 1),
-#                                   colorSpace='rgb')
-#     target_text.draw()
-#     WIN.flip()
-#     target_played = False
-#     n_target_plays = 0
-#     while True:
-#         keys = event.getKeys(keyList = ['space', 'return'])
-#         if 'space' in keys:
-#             t_snd.play()
-#             target_played = True
-#             n_target_plays += 1
-#             print('Target played')
-#         elif 'return' in keys and target_played:
-#             break
-
-#     return(n_target_plays)
-
 def ready(WIN):
     block_begin = visual.TextStim(WIN,
                                   text = "Please count how many times you hear the target tone. Press 'enter' to begin!",
@@ -219,52 +195,6 @@ def ready(WIN):
     WIN.flip()
     event.waitKeys(keyList = ['return'])
     WIN.flip()
-
-# def play_sequence(MARKER, FREQS, TONE_LEN, target, n_tones):
-#     n_targets = 0
-#     force = False
-#     one_back = 0
-#     two_back = 0
-
-#     # play first tone
-#     tone_nums, freqs, marks, is_targets = play_first_tone(MARKER, TONE_LEN, FREQS, target)
-
-#     for tone_num in range(2, n_tones + 1):
-#         print(tone_num, end = ', ', flush = True)
-
-#         # select tone
-#         if not force:
-#             i = random.randint(0, len(FREQS)-1)
-#         freq = FREQS[i]
-#         mark = 
-(FREQS, i, target)
-#         snd = Sound(freq, secs = TONE_LEN)
-
-#         # increment
-#         is_target, n_targets = check_target(freq, target, n_targets)
-
-#         # schedule sound
-#         now = GetSecs()
-#         snd.play(when = now + 0.1)
-#         WaitSecs(0.1)
-#         MARKER.send(mark)
-#         WaitSecs(TONE_LEN - 0.1)
-
-#         # add jitter between tones
-#         WaitSecs(TONE_LEN + random.uniform(-0.1, 0))
-
-#         # save tone info
-#         tone_nums.append(tone_num)
-#         freqs.append(freq)
-#         marks.append(mark)
-#         is_targets.append(is_target)
-
-#         # check for repeats
-#         force, i, one_back, two_back = check_repeats(FREQS, freq, one_back, two_back)
-
-#     print('')
-#     print(f"n_targets: {n_targets}")
-#     return(tone_nums, freqs, marks, is_targets, n_targets)
 
 def play_tone(MARKER, tone_fpath, is_target):
     t0 = boxSecs()
@@ -360,6 +290,36 @@ def get_tone_weights(stream, target, tones, no_targets):
         distractors = tones[:, 1]
     weights = list(map(_replaceitem, distractors, [target] * len(distractors), [no_targets] * len(distractors)))
     return(weights)
+
+def play_target(WIN, target, stream):
+    if stream == 'l':
+        fname = f"tones/left_{str(target)}.wav"
+    elif stream == 'r':
+        fname = f"tones/right_{str(target)}.wav"
+
+    t_snd = Sound(fname)
+
+    target_text = visual.TextStim(WIN,
+                                  text = "Press 'space' to hear the target tone. Remember to listen for the target only in the same ear as you currently hear it. Press 'enter' to continue",
+                                  pos=(0.0, 0.0),
+                                  color=(1, 1, 1),
+                                  colorSpace='rgb')
+    target_text.draw()
+    WIN.flip()
+    target_played = False
+    n_target_plays = 0
+
+    while True:
+        keys = event.getKeys(keyList = ['space', 'return'])
+        if 'space' in keys:
+            t_snd.play()
+            target_played = True
+            n_target_plays += 1
+            print('Target played')
+        elif 'return' in keys and target_played:
+            break
+
+    return(n_target_plays)
 
 def get_tone(tones, tone_id, markers, weights, no_target_weights, cannot_be_target):
     if cannot_be_target:
