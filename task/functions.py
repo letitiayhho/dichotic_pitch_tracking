@@ -102,6 +102,7 @@ def display_instructions(WIN, text):
     instructions.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
+    WIN.flip()
     print(text)
 
 def instructions(WIN):
