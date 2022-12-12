@@ -4,6 +4,9 @@ from events import EventMarker
 from functions import *
 import RTBox
 
+# constants
+N_SEQS = 18
+
 # ask for subject and block number
 SUB_NUM = input("Input subject number: ")
 BLOCK_NUM = input("Input block number: ")
@@ -16,11 +19,12 @@ box = RTBox.RTBox()
 box.buttonNames(['1', '1', '1', '1'])
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
+reward = 0
 
 # have subj listen the tones and display instructions if training block
 start(BLOCK_NUM, WIN, TONE_LEN, FREQS)
 
-for seq in range(N_SEQS - seq_num):
+while seq_num <= N_SEQS:
 
     # Randomize stream and target
     stream = get_stream()
@@ -41,6 +45,9 @@ for seq in range(N_SEQS - seq_num):
     rts = []
     hits = []
     false_alarms = []
+    
+    # Play target
+    play_target(WIN, target, stream)
 
     cannot_be_target = True # First tone cannot be target
     for tone_num in range(1, SEQ_LEN + 1):
@@ -64,7 +71,8 @@ for seq in range(N_SEQS - seq_num):
         WIN.flip()
         
     # Give feedback
-    give_feedback(hits, false_alarms)
+    reward = compute_reward(reward)
+    give_feedback(hits, false_alarms, reward)
         
     write_log(LOG,
               SEQ_LEN,
@@ -81,7 +89,8 @@ for seq in range(N_SEQS - seq_num):
               is_targets,
               rts,
               hits,
-              false_alarms)
+              false_alarms,
+              reward)
     seq_num += 1
     
 print("Block over.")
