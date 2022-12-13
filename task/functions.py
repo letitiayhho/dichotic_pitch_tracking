@@ -86,8 +86,8 @@ def get_reward(LOG):
     if len(reward) == 0:
         reward = 0
     else:
-        reward = reward.iloc[-1] + 1
-    reward = int(reward)
+        reward = reward.iloc[-1]
+    reward = float(reward)
     print(f"reward: {reward}")
     return(reward)
 
@@ -292,15 +292,14 @@ def compute_reward(hits, misses, false_alarms, reward):
     reward = round(reward + earned + deducted, 2)
     return(reward)
 
-
 def give_feedback(WIN, hits, misses, false_alarms, reward):
     feedback = visual.TextStim(WIN, text = f"You had {sum(hits)} hits, {sum(misses)} misses and {sum(false_alarms)} false alarms. You have a total of ${reward} for this block. Press 'enter' to continue.")
     feedback.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
-    print(f'hits: {hits}')
-    print(f'misses: {misses}')
-    print(f'false_alarms: {false_alarms}')
+    print(f'hits: {sum(hits)}')
+    print(f'misses: {sum(misses)}')
+    print(f'false_alarms: {sum(false_alarms)}')
     print(f'reward: {reward}')
 
 def broadcast(n_tones, var):
@@ -332,8 +331,8 @@ def write_log(LOG, SEQ_LEN, seed, SUB_NUM, BLOCK_NUM, seq_num, stream, target,
     df = pd.DataFrame(data = d)
     df.to_csv(LOG, mode='a', header = False, index = False)
 
-def end(WIN, BLOCK_NUM):
+def end(WIN, BLOCK_NUM, reward):
     if BLOCK_NUM == "0":
-        display_instructions(WIN, "Congratulations for finishing the practice block. Your experimenter will now come in to check on you, let them know if you have any questions or if you would like to repeat this practice block. If you are ready you will now move on to the 5 experiment blocks, each of which will have 16 trials.")
+        display_instructions(WIN, "Congratulations for finishing the practice block. Let your experimenter know if you have any questions or if you would like to repeat this practice block. If you are ready, you will now move on to the 5 experiment blocks, each of which will have 16 trials.")
     else:
-        display_instructions(WIN, "End of block! Your experimenter will now come and check on you.")
+        display_instructions(WIN, f"End of block! You earned a total of ${reward} for this block. Your experimenter will now come and check on you.")

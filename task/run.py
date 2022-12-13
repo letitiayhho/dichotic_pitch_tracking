@@ -101,7 +101,7 @@ while seq_num <= n_seqs:
 
     seq_num += 1
 
-end(WIN, BLOCK_NUM)
+end(WIN, BLOCK_NUM, reward)
 
 print("Block over.")
 
