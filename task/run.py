@@ -9,18 +9,20 @@ SUB_NUM = input("Input subject number: ")
 BLOCK_NUM = input("Input block number: ")
 
 # set up
-SEED = set_seed(SUB_NUM, BLOCK_NUM, seq_num)
+set_cwd()
+SEED = set_seed(SUB_NUM, BLOCK_NUM)
 WIN = get_window()
-MARKER = EventMarker()
-box = RTBox.RTBox()
-box.buttonNames(['1', '1', '1', '1'])
+# MARKER = EventMarker()
+MARKER = None
+# box = RTBox.RTBox()
+# box.buttonNames(['1', '1', '1', '1'])
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
 n_seqs = get_n_seqs(BLOCK_NUM)
 reward = 0
 
 # have subj listen to the tones and display instructions if training block
-start(BLOCK_NUM, WIN, TONE_LEN, FREQS)
+# start(WIN, BLOCK_NUM)
 
 while seq_num <= n_seqs:
 
@@ -56,7 +58,7 @@ while seq_num <= n_seqs:
         tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weights, cannot_be_target)
         tone_fname = get_tone_fname(tone)
         rt = play_tone(MARKER, tone_fname)
-        hit, miss, false_alarm = grade(rt, target)
+        hit, miss, false_alarm = grade(rt, is_target)
         cannot_be_target = is_target # Make sure targets can't play consecutively
 
         tone_nums.append(tone_num)
@@ -71,31 +73,33 @@ while seq_num <= n_seqs:
         
         WIN.flip()
         
-    # Give feedback
+    # Write log
     reward = compute_reward(hits, misses, false_alarms, reward)
-    give_feedback(hits, misses, false_alarms, reward)
-        
     write_log(LOG,
-              seq_len,
-              SEED, 
-              SUB_NUM,
-              BLOCK_NUM,
-              seq_num,
-              stream, 
-              target, 
-              tone_nums,
-              left_freq, 
-              right_freq, 
-              mark_sent,
-              is_targets,
-              rts,
-              hits,
-              misses,
-              false_alarms,
-              reward)
+          seq_len,
+          SEED, 
+          SUB_NUM,
+          BLOCK_NUM,
+          seq_num,
+          stream, 
+          target, 
+          tone_nums,
+          left_freq, 
+          right_freq, 
+          mark_sent,
+          is_targets,
+          rts,
+          hits,
+          misses,
+          false_alarms,
+          reward)
+    
+    # Give feedback
+    give_feedback(WIN, hits, misses, false_alarms, reward)
+
     seq_num += 1
 
-end(BLOCK_NUM)
+end(WIN, BLOCK_NUM)
 
 print("Block over.")
 
