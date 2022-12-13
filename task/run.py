@@ -52,8 +52,9 @@ while seq_num <= n_seqs:
     play_target(WIN, target, stream)
 
     cannot_be_target = True # First tone cannot be target
+    fixation(WIN)
     for tone_num in range(1, seq_len + 1):
-        fixation(WIN)
+        print(tone_num, end = ', ', flush = True)
         
         tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weights, cannot_be_target)
         tone_fname = get_tone_fname(tone)
@@ -70,8 +71,9 @@ while seq_num <= n_seqs:
         hits.append(hit)
         misses.append(miss)
         false_alarms.append(false_alarm)
-        
-        WIN.flip()
+    
+    print('')
+    WIN.flip()
         
     # Write log
     reward = compute_reward(hits, misses, false_alarms, reward)

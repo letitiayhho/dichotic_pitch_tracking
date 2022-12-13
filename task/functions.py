@@ -273,9 +273,6 @@ def grade(rt, is_target):
         hit, miss, false_alarm = 0, 1, 0
     else:
         hit, miss, false_alarm = 0, 0, 0
-    print(f'rt: {rt}')
-    print(f'is_target: {is_target}')
-    print(f'hit: {hit}, miss: {miss}, false_alarm: {false_alarm}')
     return(hit, miss, false_alarm)
 
 def compute_reward(hits, misses, false_alarms, reward):
@@ -284,11 +281,13 @@ def compute_reward(hits, misses, false_alarms, reward):
     reward = round(reward + earned + deducted, 2)
     return(reward)
 
+
 def give_feedback(WIN, hits, misses, false_alarms, reward):
     feedback = visual.TextStim(WIN, text = f"You had {sum(hits)} hits, {sum(misses)} misses and {sum(false_alarms)} false alarms. You have a total of ${reward} for this block. Press 'enter' to continue.")
     feedback.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
+    print(feedback)
 
 def broadcast(n_tones, var):
     if not isinstance(var, list):
