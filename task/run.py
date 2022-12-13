@@ -17,8 +17,8 @@ MARKER = None
 # box.buttonNames(['1', '1', '1', '1'])
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
+reward = get_reward(LOG)
 n_seqs = get_n_seqs(BLOCK_NUM)
-reward = 0
 
 # have subj listen to the tones and display instructions if training block
 # start(WIN, BLOCK_NUM)

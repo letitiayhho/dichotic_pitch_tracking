@@ -80,6 +80,17 @@ def get_seq_num(LOG):
     print(f"seq_num: {seq_num}")
     return(seq_num)
 
+def get_reward(LOG):
+    log = pd.read_csv(LOG)
+    reward = log['reward']
+    if len(reward) == 0:
+        reward = 0
+    else:
+        reward = reward.iloc[-1] + 1
+    reward = int(reward)
+    print(f"reward: {reward}")
+    return(reward)
+
 def get_n_seqs(BLOCK_NUM):
     if BLOCK_NUM == "0":
         n_seqs = 3
@@ -287,18 +298,21 @@ def give_feedback(WIN, hits, misses, false_alarms, reward):
     feedback.draw()
     WIN.flip()
     event.waitKeys(keyList = ['return'])
-    print(feedback)
+    print(f'hits: {hits}')
+    print(f'misses: {misses}')
+    print(f'false_alarms: {false_alarms}')
+    print(f'reward: {reward}')
 
 def broadcast(n_tones, var):
     if not isinstance(var, list):
         broadcasted_array = [var]*n_tones
     return(broadcasted_array)
 
-def write_log(LOG, SEQ_LEN, SEED, SUB_NUM, BLOCK_NUM, seq_num, stream, target, 
+def write_log(LOG, SEQ_LEN, seed, SUB_NUM, BLOCK_NUM, seq_num, stream, target, 
               tone_num, left_freq, right_freq, mark, is_target, rt, hit, miss, false_alarm, reward):
     print("Writing to log file")
     d = {
-        'seed': broadcast(SEQ_LEN, SEED),
+        'seed': broadcast(SEQ_LEN, seed),
         'sub_num': broadcast(SEQ_LEN, SUB_NUM),
         'block_num': broadcast(SEQ_LEN, BLOCK_NUM),
         'seq_num': broadcast(SEQ_LEN, seq_num),
