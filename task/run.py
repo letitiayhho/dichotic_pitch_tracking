@@ -10,7 +10,6 @@ BLOCK_NUM = input("Input block number: ")
 
 # set up
 set_cwd()
-SEED = set_seed(SUB_NUM, BLOCK_NUM)
 WIN = get_window()
 # MARKER = EventMarker()
 MARKER = None
@@ -25,6 +24,7 @@ reward = 0
 # start(WIN, BLOCK_NUM)
 
 while seq_num <= n_seqs:
+    seed = set_seed(SUB_NUM, BLOCK_NUM, seq_num)
 
     # Randomize stream and target
     stream = get_stream()
@@ -79,7 +79,7 @@ while seq_num <= n_seqs:
     reward = compute_reward(hits, misses, false_alarms, reward)
     write_log(LOG,
           seq_len,
-          SEED, 
+          seed, 
           SUB_NUM,
           BLOCK_NUM,
           seq_num,

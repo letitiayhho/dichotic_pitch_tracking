@@ -16,11 +16,11 @@ def set_cwd(): # set working directory to git top level
     os.chdir(repo.working_tree_dir)
     print(repo.working_tree_dir)
 
-def set_seed(SUB_NUM, BLOCK_NUM):
-    SEED = int(SUB_NUM + "0" + BLOCK_NUM)
-    print("Current seed: " + str(SEED))
-    random.seed(SEED)
-    return(SEED)
+def set_seed(SUB_NUM, BLOCK_NUM, seq_num):
+    seed = int(SUB_NUM + "0" + BLOCK_NUM + "0" + str(seq_num))
+    print("Current seed: " + str(seed))
+    random.seed(seed)
+    return(seed)
     
 def get_window():
     WIN = visual.Window(size = (800, 500),
