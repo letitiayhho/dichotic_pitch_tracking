@@ -6,7 +6,7 @@ import RTBox
 
 # ask for subject and block number
 SUB_NUM = input("Input subject number: ")
-BLOCK_NUM = input("Input block number: ")
+BLOCK_NUM = input("Input block number [0-5]: ")
 
 # set up
 set_cwd()
