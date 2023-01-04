@@ -125,8 +125,8 @@ def display_instructions(WIN, text):
     print(text)
 
 def instructions(WIN):
-    display_instructions(WIN, "Welcome to the experiment. Press 'enter' to begin.")
-    display_instructions(WIN, "In each trial for this task you will hear different sequences of tones simultaneously in both ears. The sequences will consist of three different tones, and you will be asked to pay attention to the sequence in either your left or your right ear. Press 'enter' to hear examples of those tones.")
+    display_instructions(WIN, "Welcome to the experiment. \n\n Press 'enter' to begin.")
+    display_instructions(WIN, "In each trial for this task you will hear different sequences of tones simultaneously in both ears. The sequences will consist of three different tones, and you will be asked to pay attention to the sequence in either your left or your right ear. \n\n Press 'enter' to hear examples of those tones.")
     
     play_instruction_tone(WIN, 'left', 'first', '130')
     play_instruction_tone(WIN, 'left', 'second', '200')
@@ -135,15 +135,15 @@ def instructions(WIN):
     play_instruction_tone(WIN, 'right', 'second', '200')
     play_instruction_tone(WIN, 'right', 'third', '280')
 
-    display_instructions(WIN, "For each sequence of tones, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like before the trial begins. Every time you hear a target tone, press any botton on the response box as quickly as you can. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, "Pay attention to whether the tone plays on your left or right side, you will be listening only to the tones and targets on that side. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, "You will receive an extra $0.10 for every tone you correctly identify as a target, and lose $0.05 for every target you miss or every tone you mistakenly identify as the target. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the each tone sequence. Keep your gaze on the fixation cross and stay relaxed while the cross is on the screen. Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. Press 'enter' to continue to the practice trials.")
+    display_instructions(WIN, "For each sequence of tones, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like before the trial begins. Every time you hear a target tone, press any botton on the response box as quickly as you can. \n\n Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "Pay attention to whether the tone plays on your left or right side, you will be listening only to the tones and targets on that side. \n\n Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "You will receive an extra $0.10 for every tone you correctly identify as a target, and lose $0.05 for every target you miss or every tone you mistakenly identify as the target. \n\n Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the each tone sequence. Keep your gaze on the fixation cross and stay relaxed while the cross is on the screen. \n\n Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. \n\n Press 'enter' to continue to the practice trials.")
 
 def block_welcome(WIN, BLOCK_NUM):
-    display_instructions(WIN, f"Welcome to block number {BLOCK_NUM}/5. Press 'enter' to continue.")
-    display_instructions(WIN, "Remember to keep your gaze on the fixation cross and stay relaxed while the fixation cross is on the screen. Press 'enter' to begin the block.")
+    display_instructions(WIN, f"Welcome to block number {BLOCK_NUM}/5. \n\n Press 'enter' to continue.")
+    display_instructions(WIN, "Remember to keep your gaze on the fixation cross and stay relaxed while the fixation cross is on the screen. \n\n Press 'enter' to begin the block.")
 
 def get_stream():
     return(random.choice(['r', 'l']))
@@ -213,7 +213,7 @@ def play_target(WIN, target, stream):
 
     t_snd = Sound(fname)
 
-    target_text = visual.TextStim(WIN, text = "Press 'space' to hear the target tone. Remember to listen for the target only in the same ear as you currently hear it. Press 'enter' to begin the trial.")
+    target_text = visual.TextStim(WIN, text = "Press 'space' to hear the target tone. Remember to listen for the target only in the same ear as you currently hear it. \n\n Press 'enter' to begin the trial.")
     target_text.draw()
     WIN.flip()
     target_played = False
