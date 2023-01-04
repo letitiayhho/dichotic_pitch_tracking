@@ -291,6 +291,8 @@ def compute_reward(hits, misses, false_alarms, reward):
     earned = sum(hits) * 0.1
     deducted = -((sum(misses) + sum(false_alarms)) * 0.05)
     reward = round(reward + earned + deducted, 2)
+    if reward < 0:
+        reward = 0
     return(reward)
 
 def give_feedback(WIN, hits, misses, false_alarms, reward):
