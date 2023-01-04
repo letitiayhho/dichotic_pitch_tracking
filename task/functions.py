@@ -2,6 +2,7 @@ import pandas as pd
 import os.path
 import random
 import git
+#import time
 from numpy import nan, array
 
 from psychopy import prefs
@@ -258,6 +259,7 @@ def play_tone(MARKER, tone_fpath):
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
     WaitSecs(0.001)
+    #start = time.time()
 #     MARKER.send(mark)
     
 #     (secs, btns) = box.secs(0.6) # read response, 0.6 secs
@@ -271,6 +273,9 @@ def play_tone(MARKER, tone_fpath):
     keys = event.waitKeys(maxWait = 0.6, keyList = ['space'])
     t1 = GetSecs()
     WaitSecs(0.6 - (t1 - t0)) # Wait for tone duration + ISI
+    #end = time.time()
+    #print(f"ISI + tone len: {end - start} secs")
+    #print(keys)
     if keys == None:
         return(nan)
     else:
