@@ -258,21 +258,21 @@ def play_tone(MARKER, tone_fpath):
 #     now = boxSecs()
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
-    WaitSecs(0.001)
+    WaitSecs(0.1)
     #start = time.time()
-#     MARKER.send(mark)
+     MARKER.send(mark)
     
-#     (secs, btns) = box.secs(0.6) # read response, 0.6 secs
+#     (secs, btns) = box.secs(0.5) # read response, 0.6 secs
 #     if len(secs) < 1:
 #         rt = nan
 #     else:
 #         rt = secs[0] - t0
-#     WaitSecs(0.6 - rt)
+#     WaitSecs(0.5 - rt)
 #     return(rt)
 
-    keys = event.waitKeys(maxWait = 0.6, keyList = ['space'])
+    keys = event.waitKeys(maxWait = 0.5, keyList = ['space'])
     t1 = GetSecs()
-    WaitSecs(0.6 - (t1 - t0)) # Wait for tone duration + ISI
+    WaitSecs(0.5 - (t1 - t0)) # Wait for tone duration + ISI
     #end = time.time()
     #print(f"ISI + tone len: {end - start} secs")
     #print(keys)
