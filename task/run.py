@@ -11,7 +11,7 @@ BLOCK_NUM = input("Input block number [0-5]: ")
 # set up
 set_cwd()
 WIN = get_window()
-# MARKER = EventMarker()
+#MARKER = EventMarker()
 MARKER = None
 # box = RTBox.RTBox()
 # box.buttonNames(['1', '1', '1', '1'])
@@ -58,7 +58,7 @@ while seq_num <= n_seqs:
         
         tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weights, cannot_be_target)
         tone_fname = get_tone_fname(tone)
-        rt = play_tone(MARKER, tone_fname)
+        rt = play_tone(MARKER, tone_fname, mark)
         hit, miss, false_alarm = grade(rt, is_target)
         cannot_be_target = is_target # Make sure targets can't play consecutively
 

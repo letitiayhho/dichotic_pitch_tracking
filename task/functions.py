@@ -244,8 +244,8 @@ def get_tone(tones, tone_id, markers, weights, no_target_weights, cannot_be_targ
         i = random.choices(range(len(tones)), weights)[0]
     tone = tones[i]
     is_target = tone_id[i]
-    marker = markers[i]
-    return(tone, is_target, marker)
+    mark = int(markers[i])
+    return(tone, is_target, mark)
 
 def get_tone_fname(tone_array):
     left_freq = tone_array[0]
@@ -253,14 +253,14 @@ def get_tone_fname(tone_array):
     fname = "task/tones/left_" + str(left_freq) + "_right_" + str(right_freq) + ".wav"
     return(fname)
 
-def play_tone(MARKER, tone_fpath):
+def play_tone(MARKER, tone_fpath, mark):
     t0 = GetSecs()
 #     now = boxSecs()
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
     WaitSecs(0.1)
     #start = time.time()
-     MARKER.send(mark)
+    MARKER.send(mark)
     
 #     (secs, btns) = box.secs(0.5) # read response, 0.6 secs
 #     if len(secs) < 1:
