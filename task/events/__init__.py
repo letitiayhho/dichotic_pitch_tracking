@@ -1,4 +1,5 @@
 from .RTBox import RTBox as Box
+from psychtoolbox import GetSecs
 
 def revbits(n):
 	'''
@@ -38,7 +39,7 @@ class EventMarker:
 		over parallel port (since pin assignments are opposite of RTBox).
 		'''
 		self._revbits = reverse_bits
-		self.box = Box()
+		self.box = Box(host_clock = GetSecs)
 
 	def send(self, event_code):
 		'''

@@ -2,7 +2,6 @@ from psychopy import visual, core, event
 from psychtoolbox import WaitSecs
 from events import EventMarker
 from functions import *
-import RTBox
 
 # ask for subject and block number
 SUB_NUM = input("Input subject number: ")
@@ -11,10 +10,9 @@ BLOCK_NUM = input("Input block number [0-5]: ")
 # set up
 set_cwd()
 WIN = get_window()
-#MARKER = EventMarker()
-MARKER = None
-# box = RTBox.RTBox()
-# box.buttonNames(['1', '1', '1', '1'])
+MARKER = EventMarker()
+#MARKER = None
+BOX = init_RTBox(MARKER, WIN)
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
 reward = get_reward(LOG)
@@ -58,7 +56,7 @@ while seq_num <= n_seqs:
         
         tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weights, cannot_be_target)
         tone_fname = get_tone_fname(tone)
-        rt = play_tone(MARKER, tone_fname, mark)
+        rt = play_tone(BOX, MARKER, tone_fname, mark)
         hit, miss, false_alarm = grade(rt, is_target)
         cannot_be_target = is_target # Make sure targets can't play consecutively
 
@@ -104,5 +102,5 @@ while seq_num <= n_seqs:
 end(WIN, BLOCK_NUM, reward)
 
 print("Block over.")
-
+BOX.close()
 core.quit()

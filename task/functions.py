@@ -4,7 +4,6 @@ import random
 import git
 #import time
 from numpy import nan, array
-
 from psychopy import prefs
 prefs.hardware['audioLib'] = ['ptb']
 from psychopy.sound.backend_ptb import SoundPTB as Sound
@@ -24,13 +23,18 @@ def set_seed(SUB_NUM, BLOCK_NUM, seq_num):
     return(seed)
     
 def get_window():
-    WIN = visual.Window(size = (800, 500),
-        screen = -1,
+    WIN = visual.Window(size = (192, 108),
+        screen = 2,
         units = "norm",
         fullscr = False,
         pos = (0, 0),
         allowGUI = False)
     return(WIN)
+
+def init_RTBox(MARKER, WIN):
+    BOX = MARKER.box
+    BOX.buttonNames(['1', '1', '1', '1'])
+    return(BOX)
 
 def get_keyboard(dev_name):
     devs = hid.get_keyboard_indices()
@@ -253,33 +257,36 @@ def get_tone_fname(tone_array):
     fname = "task/tones/left_" + str(left_freq) + "_right_" + str(right_freq) + ".wav"
     return(fname)
 
-def play_tone(MARKER, tone_fpath, mark):
+def play_tone(BOX, MARKER, tone_fpath, mark):
     t0 = GetSecs()
-#     now = boxSecs()
+    #t0 = BOX.boxSecs()
+    print(t0)
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
-    WaitSecs(0.1)
+    WaitSecs(0.001)
     #start = time.time()
     MARKER.send(mark)
     
-#     (secs, btns) = box.secs(0.5) # read response, 0.6 secs
-#     if len(secs) < 1:
-#         rt = nan
-#     else:
-#         rt = secs[0] - t0
-#     WaitSecs(0.5 - rt)
-#     return(rt)
+    print('waiting for response')
+    (secs, btns) = BOX.secs(0.5) # read response, 0.6 secs
+    if len(secs) < 1:
+        rt = nan
+    else:
+        rt = secs[0] - t0
+    WaitSecs(0.5 - rt)
+    print(rt)
+    return(rt)
 
-    keys = event.waitKeys(maxWait = 0.5, keyList = ['space'])
-    t1 = GetSecs()
-    WaitSecs(0.5 - (t1 - t0)) # Wait for tone duration + ISI
+    #keys = event.waitKeys(maxWait = 0.5, keyList = ['space'])
+    #t1 = GetSecs()
+    #WaitSecs(0.5 - (t1 - t0)) # Wait for tone duration + ISI
     #end = time.time()
     #print(f"ISI + tone len: {end - start} secs")
     #print(keys)
-    if keys == None:
-        return(nan)
-    else:
-        return(1)
+    #if keys == None:
+    #    return(nan)
+    #else:
+    #    return(1)
 
 def grade(rt, is_target):
     if is_target and rt is not nan:
