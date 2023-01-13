@@ -2,6 +2,7 @@ from psychopy import visual, core, event
 from psychtoolbox import WaitSecs
 from events import EventMarker
 from functions import *
+from cedrus.cedrus import RBx20
 
 # ask for subject and block number
 SUB_NUM = input("Input subject number: ")
@@ -11,8 +12,8 @@ BLOCK_NUM = input("Input block number [0-5]: ")
 set_cwd()
 WIN = get_window()
 MARKER = EventMarker()
+BOX = RBx20('FTCGRG4Q')
 #MARKER = None
-BOX = init_RTBox(MARKER, WIN)
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
 reward = get_reward(LOG)

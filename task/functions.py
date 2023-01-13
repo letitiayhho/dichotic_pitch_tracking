@@ -23,7 +23,7 @@ def set_seed(SUB_NUM, BLOCK_NUM, seq_num):
     return(seed)
     
 def get_window():
-    WIN = visual.Window(size = (192, 108),
+    WIN = visual.Window(size = (400, 300),
         screen = 2,
         units = "norm",
         fullscr = False,
@@ -31,10 +31,13 @@ def get_window():
         allowGUI = False)
     return(WIN)
 
-def init_RTBox(MARKER, WIN):
-    BOX = MARKER.box
-    BOX.buttonNames(['1', '1', '1', '1'])
-    return(BOX)
+#def init_RTBox(MARKER):
+#    BOX = MARKER.box
+#    BOX.buttonNames(['1', '1', '1', '1'])
+#    return(BOX)
+
+def init_Cedrus(serial):
+   BOX = RBx20(serial)
 
 def get_keyboard(dev_name):
     devs = hid.get_keyboard_indices()
@@ -258,6 +261,7 @@ def get_tone_fname(tone_array):
     return(fname)
 
 def play_tone(BOX, MARKER, tone_fpath, mark):
+    BOX.clear()
     t0 = GetSecs()
     #t0 = BOX.boxSecs()
     print(t0)
