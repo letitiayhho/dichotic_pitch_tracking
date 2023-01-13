@@ -261,36 +261,18 @@ def get_tone_fname(tone_array):
     return(fname)
 
 def play_tone(BOX, MARKER, tone_fpath, mark):
-    BOX.clear()
-    t0 = GetSecs()
-    #t0 = BOX.boxSecs()
-    print(t0)
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
     WaitSecs(0.001)
     #start = time.time()
     MARKER.send(mark)
     
-    print('waiting for response')
-    (secs, btns) = BOX.secs(0.5) # read response, 0.6 secs
-    if len(secs) < 1:
-        rt = nan
-    else:
-        rt = secs[0] - t0
-    WaitSecs(0.5 - rt)
-    print(rt)
-    return(rt)
+    timeout = 0.5
+    key, rt = BOX.waitKeys(timeout = timeout)
+    if rt != None:
+	WaitSecs(timeout - rt)
 
-    #keys = event.waitKeys(maxWait = 0.5, keyList = ['space'])
-    #t1 = GetSecs()
-    #WaitSecs(0.5 - (t1 - t0)) # Wait for tone duration + ISI
-    #end = time.time()
-    #print(f"ISI + tone len: {end - start} secs")
-    #print(keys)
-    #if keys == None:
-    #    return(nan)
-    #else:
-    #    return(1)
+    return(rt)
 
 def grade(rt, is_target):
     if is_target and rt is not nan:
