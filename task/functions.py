@@ -230,12 +230,12 @@ def play_target(WIN, target, stream):
         keys = event.getKeys(keyList = ['space', 'return'])
         if 'space' in keys:
             t_snd.play()
-            target_played = True
             n_target_plays += 1
             print('Target played')
-        elif 'return' in keys and target_played:
+        elif 'return' in keys and n_target_plays > 0:
             break
 
+    WaitSecs(1)
     return(n_target_plays)
 
 def fixation(WIN):
@@ -261,16 +261,18 @@ def get_tone_fname(tone_array):
     return(fname)
 
 def play_tone(BOX, MARKER, tone_fpath, mark):
+    t0 = GetSecs()
     snd = Sound(tone_fpath)
     snd.play(when = t0 + 0.001)
     WaitSecs(0.001)
-    #start = time.time()
     MARKER.send(mark)
     
     timeout = 0.5
     key, rt = BOX.waitKeys(timeout = timeout)
     if rt != None:
-	WaitSecs(timeout - rt)
+        WaitSecs(timeout - rt)
+    else:
+        rt = nan
 
     return(rt)
 
