@@ -22,6 +22,7 @@ n_seqs = get_n_seqs(BLOCK_NUM)
 start(WIN, BLOCK_NUM)
 
 while seq_num <= n_seqs:
+    print(f"seq_num: {seq_num}")
     seed = set_seed(SUB_NUM, BLOCK_NUM, seq_num)
 
     # Randomize stream and target
