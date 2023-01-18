@@ -101,6 +101,6 @@ while seq_num <= n_seqs:
 
 end(WIN, BLOCK_NUM, reward)
 
-print("Block over.")
+print("Block over :-)")
 BOX.close()
 core.quit()
