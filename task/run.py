@@ -13,14 +13,13 @@ set_cwd()
 WIN = get_window()
 MARKER = EventMarker()
 BOX = RBx20('FTCGRG4Q')
-#MARKER = None
 LOG = open_log(SUB_NUM, BLOCK_NUM)
 seq_num = get_seq_num(LOG)
 reward = get_reward(LOG)
 n_seqs = get_n_seqs(BLOCK_NUM)
 
 # have subj listen to the tones and display instructions if training block
-# start(WIN, BLOCK_NUM)
+start(WIN, BLOCK_NUM)
 
 while seq_num <= n_seqs:
     seed = set_seed(SUB_NUM, BLOCK_NUM, seq_num)

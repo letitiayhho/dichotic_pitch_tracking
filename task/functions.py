@@ -23,8 +23,8 @@ def set_seed(SUB_NUM, BLOCK_NUM, seq_num):
     return(seed)
     
 def get_window():
-    WIN = visual.Window(size = (400, 300),
-        screen = 2,
+    WIN = visual.Window(size = (1920, 1080),
+        screen = -1,
         units = "norm",
         fullscr = False,
         pos = (0, 0),
@@ -143,7 +143,7 @@ def instructions(WIN):
     play_instruction_tone(WIN, 'right', 'third', '280')
 
     display_instructions(WIN, "For each sequence of tones, one of the three tones you just heard will be randomly selected as the ‘target’ tone. You will be allowed to listen to the target tone as many times as you like before the trial begins. Every time you hear a target tone, press any botton on the response box as quickly as you can. \n\n Press 'enter' for the remaining instructions.")
-    display_instructions(WIN, "Pay attention to whether the tone plays on your left or right side, you will be listening only to the tones and targets on that side. \n\n Press 'enter' for the remaining instructions.")
+    display_instructions(WIN, "Pay close attention to whether the target tone plays on your left or right side, you will be listening only to the tones and targets on that side. \n\n Press 'enter' for the remaining instructions.")
     display_instructions(WIN, "You will receive an extra $0.10 for every tone you correctly identify as a target, and lose $0.05 for every target you miss or every tone you mistakenly identify as the target. \n\n Press 'enter' for the remaining instructions.")
     display_instructions(WIN, "It is important for you not to move your body, move your your eyes or blink while the tones are playing. To help with this, a fixation cross '+' will be shown during the each tone sequence. Keep your gaze on the fixation cross and stay relaxed while the cross is on the screen. \n\n Press 'enter' for the remaining instructions.")
     display_instructions(WIN, "You will now complete three practice trials. Please let you experimenter know if you have any questions or are experiencing any difficulties with the display or audio. \n\n Press 'enter' to continue to the practice trials.")

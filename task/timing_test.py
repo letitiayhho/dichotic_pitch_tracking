@@ -1,10 +1,10 @@
 from events import EventMarker
 from functions import *
-#import RTBox
 import random
+from cedrus.cedrus import RBx20
 
+BOX = RBx20('FTCGRG4Q')
 MARKER = EventMarker()
-#MARKER = None
 n_tones = 1000
 
 stream = get_stream()
@@ -23,4 +23,4 @@ tone, is_target, mark = get_tone(tones, tone_id, marks, weights, no_target_weigh
 
 for i in range(n_tones):
     print(i)
-    rt = play_tone(MARKER, tone_fname, mark)
+    rt = play_tone(BOX, MARKER, tone_fname, mark)
