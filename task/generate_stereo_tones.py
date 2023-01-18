@@ -15,7 +15,7 @@ def generate_stereo_tone(FS, DURATION, left_freq, right_freq):
     tone_right = np.cos(2.0 * np.pi * right_freq * time)
 
     # Add with 100 msecs of 0s at the beginning
-    zeros = np.zeros(int(FS * 0.1))
+    zeros = np.zeros(int(FS * 0.05))
     tone_left = np.append(zeros, tone_left)
     tone_right = np.append(zeros, tone_right)
 
