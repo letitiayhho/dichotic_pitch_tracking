@@ -103,7 +103,7 @@ def get_n_seqs(BLOCK_NUM):
     if BLOCK_NUM == "0":
         n_seqs = 3
     else:
-        n_seqs = 16
+        n_seqs = 12
     return(n_seqs)
 
 def start(WIN, BLOCK_NUM):
@@ -267,7 +267,7 @@ def play_tone(BOX, MARKER, tone_fpath, mark):
     WaitSecs(0.001)
     MARKER.send(mark)
     
-    timeout = 0.5
+    timeout = 1.45 # tone duration + ISI - buffer time, 500 msec + 1000 msec - 50 msec
     key, rt = BOX.waitKeys(timeout = timeout)
     if rt != None:
         WaitSecs(timeout - rt)
