@@ -5,7 +5,7 @@ from scipy.io import wavfile
 # Constants
 FREQS = [130, 200, 280] #Hz
 SIDES = ['right', 'left']
-DURATION = 0.5
+DURATION = 0.4
 FS = 44100
 
 def generate_stereo_tone(FS, DURATION, side, freq):
