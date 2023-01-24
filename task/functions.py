@@ -288,8 +288,8 @@ def grade(rt, is_target):
     return(hit, miss, false_alarm)
 
 def compute_reward(hits, misses, false_alarms, reward):
-    earned = sum(hits) * 0.5
-    deducted = -((sum(misses) + sum(false_alarms)) * 0.05)
+    earned = sum(hits) * 0.3
+    deducted = -((sum(misses) + sum(false_alarms)) * 0.1)
     reward = round(reward + earned + deducted, 2)
     if reward < 0:
         reward = 0
