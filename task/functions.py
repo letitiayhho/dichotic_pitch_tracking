@@ -338,4 +338,5 @@ def end(WIN, BLOCK_NUM, reward):
     if BLOCK_NUM == "0":
         display_instructions(WIN, "Congratulations for finishing the practice block. Let your experimenter know if you have any questions or if you would like to repeat this practice block. If you are ready, you will now move on to the 5 experiment blocks, each of which will have 16 trials. \n \n Press 'enter' to end this block.")
     else:
-        display_instructions(WIN, f"End of block! You earned a total of ${reward} for this block. Your experimenter will now come and check on you. Press 'enter' to complete this block")
+        display_instructions(WIN, f"End of block! You earned a total of ${reward} for this block. Press 'enter' to complete this block and your experimenter will come and check on you.")
+
