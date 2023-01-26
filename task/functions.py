@@ -288,8 +288,8 @@ def grade(rt, is_target):
     return(hit, miss, false_alarm)
 
 def compute_reward(hits, misses, false_alarms, reward):
-    earned = sum(hits) * 0.5
-    deducted = -((sum(misses) + sum(false_alarms)) * 0.05)
+    earned = sum(hits) * 0.3
+    deducted = -((sum(misses) + sum(false_alarms)) * 0.1)
     reward = round(reward + earned + deducted, 2)
     if reward < 0:
         reward = 0
@@ -336,6 +336,6 @@ def write_log(LOG, SEQ_LEN, seed, SUB_NUM, BLOCK_NUM, seq_num, stream, target,
 
 def end(WIN, BLOCK_NUM, reward):
     if BLOCK_NUM == "0":
-        display_instructions(WIN, "Congratulations for finishing the practice block. Let your experimenter know if you have any questions or if you would like to repeat this practice block. If you are ready, you will now move on to the 5 experiment blocks, each of which will have 16 trials.")
+        display_instructions(WIN, "Congratulations for finishing the practice block. Let your experimenter know if you have any questions or if you would like to repeat this practice block. If you are ready, you will now move on to the 5 experiment blocks, each of which will have 16 trials. \n \n Press 'enter' to end this block.")
     else:
-        display_instructions(WIN, f"End of block! You earned a total of ${reward} for this block. Your experimenter will now come and check on you.")
+        display_instructions(WIN, f"End of block! You earned a total of ${reward} for this block. Your experimenter will now come and check on you. Press 'enter' to complete this block")
