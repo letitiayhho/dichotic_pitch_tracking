@@ -159,7 +159,7 @@ def get_target():
     return(random.choice([130, 200, 280]))
 
 def get_seq_len():
-    return(random.choice([36, 42, 48]))
+    return(random.choice([30, 36, 42]))
 
 def _replaceitem(x, target, no_targets):
     if x == target:
@@ -267,7 +267,7 @@ def play_tone(BOX, MARKER, tone_fpath, mark):
     WaitSecs(0.001)
     MARKER.send(mark)
     
-    timeout = 1.45 # tone duration + ISI - buffer time, 500 msec + 1000 msec - 50 msec
+    timeout = 1.15 # tone duration + ISI - buffer time, 400 msec + 8000 msec - 50 msec
     key, rt = BOX.waitKeys(timeout = timeout)
     if rt != None:
         WaitSecs(timeout - rt)
