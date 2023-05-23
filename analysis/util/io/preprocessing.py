@@ -92,8 +92,8 @@ def epoch(raw, events, event_ids):
     epochs = mne.Epochs(
         raw,
         events,
-        tmin = -0.2,
-        tmax = 0.250,
+        tmin = -0.4,
+        tmax = 0.450,
         baseline = None, # do NOT baseline correct the trials yet; we do that after ICA
         event_id = event_ids, # remember which epochs are associated with which condition
         preload = True # keep data in memory
@@ -113,7 +113,7 @@ def apply_ICA(epochs_for_ica, epochs, ica):
 
 def baseline_correct(epochs):
     epochs = epochs.pick_types(eeg = True) # change syntax?
-    epochs = epochs.apply_baseline((-0.2, 0.))
+    epochs = epochs.apply_baseline((-0.4, 0.))
     return epochs
 
 def reject_trials(epochs):
@@ -147,7 +147,7 @@ def save_and_generate_report(fpath, epochs, sink, sub, task, run, ica, bads, thr
     report.parse_folder(op.dirname(fpath), pattern = '*run-%s*epo.fif.gz'%run, render_bem = False)
 
     # Plot the ERP
-    fig_erp = epochs['50'].average().plot(spatial_colors = True)
+    fig_erp = epochs['11'].average().plot(spatial_colors = True)
     report.add_figure(
         fig_erp,
         caption = 'Average Evoked Response',
