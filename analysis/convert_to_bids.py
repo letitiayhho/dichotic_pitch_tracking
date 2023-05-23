@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-#SBATCH --time=00:03:00
+#SBATCH --time=00:10:00
 #SBATCH --partition=broadwl
 #SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=64G
+#SBATCH --mem-per-cpu=32G # 64 enough for most subs
 #SBATCH --mail-type=all
 #SBATCH --mail-user=letitiayhho@uchicago.edu
 #SBATCH --output=logs/convert-to-bids_%j.log
@@ -32,6 +32,10 @@ def main(fpath, sub, task, run) -> None:
     print(fpath)
     raw = mne.io.read_raw_brainvision(fpath)
     raw.load_data()
+    
+    # Rename channels according to aux-label-remapping.csv
+    raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv')
+    raw.rename_channels(remap_dict)
     raw.set_channel_types({'Left': 'stim', 'Right': 'stim'})
 
     # add some info BIDS will want
@@ -41,7 +45,6 @@ def main(fpath, sub, task, run) -> None:
     # map channel numbers to channel names
     print("Map channel numbers to channel names")
     mapping = get_chan_mapping(MAPS_DIR, sub)
-    raw.rename_channels(mapping)
     raw.add_reference_channels(ref_channels = ['Cz'])
 
     # Checks
