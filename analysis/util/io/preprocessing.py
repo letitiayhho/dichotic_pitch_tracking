@@ -133,9 +133,6 @@ def get_save_path(deriv_root, sub, task, run):
                     suffix = 'epo', # this suffix is following MNE, not BIDS, naming conventions
                     extension = 'fif.gz',
                     )
-    fpath_split = fpath.split('_')
-    fpath_split.insert(3, 'res-hi')
-    fpath = '_'.join(fpath_split)
     return fpath, sink
 
 def save_and_generate_report(fpath, epochs, sink, sub, task, run, ica, bads, thres):
@@ -147,7 +144,7 @@ def save_and_generate_report(fpath, epochs, sink, sub, task, run, ica, bads, thr
     report.parse_folder(op.dirname(fpath), pattern = '*run-%s*epo.fif.gz'%run, render_bem = False)
 
     # Plot the ERP
-    fig_erp = epochs['11'].average().plot(spatial_colors = True)
+    fig_erp = epochs['123'].average().plot(spatial_colors = True)
     report.add_figure(
         fig_erp,
         caption = 'Average Evoked Response',
