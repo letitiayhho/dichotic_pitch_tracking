@@ -34,7 +34,7 @@ def main(subs, skips) -> None:
             datatype = 'eeg',
             root = BIDS_DIR
             )
-        if os.path.isfile(bids_path):
+        if os.path.isfile(bids_path) and force == False:
             print(f'File {bids_path} exists, skipping {fpath}')
             continue
         
@@ -43,6 +43,11 @@ def main(subs, skips) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run convert_to_bids.py over given subjects')
+    parser.add_argument('--force',
+                        type = bool,
+                        nargs = 1,
+                        help = 'If true run script even if save_fpath exists.',
+                        default = False)
     parser.add_argument('--subs',
                         type = str,
                         nargs = '*',
@@ -54,6 +59,7 @@ if __name__ == "__main__":
                         help = 'subjects NOT to convert (e.g. 1 9)',
                         default = [])
     args = parser.parse_args()
+    force = args.force
     subs = args.subs
     skips = args.skips
     print(f"subs: {subs}, skips : {skips}")
