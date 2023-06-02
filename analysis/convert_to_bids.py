@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-#SBATCH --time=00:10:00
+#SBATCH --time=00:05:00
 #SBATCH --partition=broadwl
 #SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=32G # 64 enough for most subs
+#SBATCH --mem-per-cpu=64G # 64 enough for most subs
 #SBATCH --mail-type=all
 #SBATCH --mail-user=letitiayhho@uchicago.edu
 #SBATCH --output=logs/convert-to-bids_%j.log
@@ -19,6 +19,7 @@ import sys
 import re
 from util.io.get_chan_mapping import get_chan_mapping
 from util.io.add_stream_to_event_tags import *
+from util.io.remap_aux_labels import *
 
 def main(fpath, sub, task, run) -> None:
     print(fpath, sub, task, run)
@@ -28,9 +29,9 @@ def main(fpath, sub, task, run) -> None:
     MAPS_DIR = '../data/captrak/'
 
     # load data with MNE function for your file format
-    fpath = os.path.join(RAW_DIR, fpath)
-    print(fpath)
-    raw = mne.io.read_raw_brainvision(fpath)
+    full_fpath = os.path.join(RAW_DIR, fpath)
+    print(full_fpath)
+    raw = mne.io.read_raw_brainvision(full_fpath)
     raw.load_data()
     
     # Rename channels according to aux-label-remapping.csv
@@ -62,7 +63,7 @@ def main(fpath, sub, task, run) -> None:
         print(captrak_path)
         if os.path.isfile(captrak_path):
             print(f"Using captrak file from {captrak_sub}")
-            dig = mne. channels.read_dig_captrak(captrak_path)
+            dig = mne.channels.read_dig_captrak(captrak_path)
             raw.set_montage(dig, on_missing = 'warn')
             captrak_found = True
         else:
@@ -104,6 +105,11 @@ def main(fpath, sub, task, run) -> None:
         anonymize = dict(daysback = daysback_min), # shift dates by daysback
         overwrite = True,
     )
+
+    # Check if conversion was successful and .vhdr file was written
+    vhdr_path = str(bids_path)
+    print(f".vhdr file written? {os.path.exists(vhdr_path)}")
+    print("Done :-)")
 
 __doc__ = "Usage: ./convert-to-bids.py <fpath> <sub> <task> <run> <bids_path>"
 

@@ -9,7 +9,7 @@ from mne_bids import BIDSPath
 def main(subs, skips) -> None:
     RAW_DIR = '../data/raw/' # where our data currently lives
     BIDS_DIR = '../data/bids/' # where we want it to live
-    #BAD_SUBS = ['1', '2', '17']
+    BAD_SUBS = ['1', '20']
     
     for (fpath, sub, task, run) in iter_raw_paths(RAW_DIR):
 
