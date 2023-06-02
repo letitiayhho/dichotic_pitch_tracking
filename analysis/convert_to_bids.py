@@ -17,7 +17,6 @@ import mne
 import os
 import sys
 import re
-from util.io.get_chan_mapping import get_chan_mapping
 from util.io.add_stream_to_event_tags import *
 from util.io.remap_aux_labels import *
 
@@ -35,6 +34,7 @@ def main(fpath, sub, task, run) -> None:
     raw.load_data()
     
     # Rename channels according to aux-label-remapping.csv
+    print("Renaming aux channels")
     raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv')
     raw.rename_channels(remap_dict)
     raw.set_channel_types({'Left': 'stim', 'Right': 'stim'})
@@ -45,11 +45,19 @@ def main(fpath, sub, task, run) -> None:
 
     # map channel numbers to channel names
     print("Map channel numbers to channel names")
-    mapping = get_chan_mapping(MAPS_DIR, sub)
+    print(f"Original channel names: {raw.ch_names}")
+    if int(sub) < 29:
+        map_fp = '../data/captrak/pitch_tracking_64_at_FCZ.csv'
+        mapping_table = pd.read_csv(map_fp)
+        mapping = {mapping_table.number[i]: mapping_table.name[i] for i in range(len(mapping_table))}
+        raw.rename_channels(mapping)
     raw.add_reference_channels(ref_channels = ['Cz'])
+    print(f"Channel names: {raw.ch_names}")
 
     # Checks
-    if len(raw.ch_names) != 66:
+    n_channels = len(raw.ch_names)
+    print(f"Number of channels: {n_channels}")
+    if n_channels != 66:
         sys.exit(f"Incorrect number of channels, there should be 66 (2 aux incl) channels, instead there are {n_chans} channels")
 
     # Map channels to their coordinates
