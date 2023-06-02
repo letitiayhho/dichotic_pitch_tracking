@@ -34,7 +34,7 @@ def iter_raw_paths(data_dir) -> Iterator[KeyType]:
         sub = re.search(filt, fname).group(0)
 
         # Get task name
-        task = 'pitch'
+        task = 'dichotic'
 
         # Get run number
         print(fname)

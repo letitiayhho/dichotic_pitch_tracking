@@ -30,6 +30,6 @@ def iter_BIDSPaths(fpaths) -> Iterator[KeyType]:
     runs = list(itertools.chain(*runs))
 
     for i in range(len(fpaths)):
-        key = (fpaths[i], subs[i], 'pitch', runs[i])
+        key = (fpaths[i], subs[i], 'dichotic', runs[i])
         print(key)
         yield key
