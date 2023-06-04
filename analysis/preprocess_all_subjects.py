@@ -7,7 +7,7 @@ import argparse
 from util.io.preprocessing import get_save_path
 from util.io.iter_BIDSPaths import *
 
-def main(subs, skips) -> None:
+def main(subs, skips, force) -> None:
     BIDS_ROOT = '../data/bids'
     DERIV_ROOT = '../data/bids/derivatives'
     layout = BIDSLayout(BIDS_ROOT, derivatives = False)
@@ -26,7 +26,7 @@ def main(subs, skips) -> None:
 
         # skip if subject is already preprocessed
         fpath, sink = get_save_path(DERIV_ROOT, sub, task, run)
-        if os.path.isfile(fpath):
+        if os.path.isfile(fpath) and ~force:
             print(f"Subject {sub} run {run} is already preprocessed")
             continue
 
@@ -35,6 +35,11 @@ def main(subs, skips) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run preprocess.py over given subjects')
+    parser.add_argument('--force',
+                        type = bool,
+                        nargs = 1,
+                        help = 'whether to preprocess even if output preprocessed file exists',
+                        default = False)
     parser.add_argument('--subs', 
                         type = str, 
                         nargs = '*', 
@@ -46,9 +51,10 @@ if __name__ == "__main__":
                         help = 'subjects NOT to preprocess (e.g. 1 9)', 
                         default = [])
     args = parser.parse_args()
+    force = args.force
     subs = args.subs
     skips = args.skips
     print(f"subs: {subs}, skips : {skips}")
-    if bool(subs) & bool(skips):
+    if subs and skips:
         raise ValueError('Cannot specify both subs and skips')
-    main(subs, skips)
+    main(subs, skips, force)
