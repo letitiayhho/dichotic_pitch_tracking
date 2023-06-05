@@ -3,7 +3,7 @@
 #SBATCH --time=03:00:00
 #SBATCH --partition=bigmem2
 #SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=160G
+#SBATCH --mem-per-cpu=200G
 #SBATCH --mail-type=all
 #SBATCH --mail-user=letitiayhho@uchicago.edu
 #SBATCH --output=logs/preprocess_%j.log
