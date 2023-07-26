@@ -96,7 +96,7 @@ def main(SUB, TASK, RUN) -> None:
     
     # Get names of channels used, drop channels excluded
     recorded_channels = epochs.ch_names
-    left_channels, right_channels = get_channels(recorded_channels)
+    right_channels, left_channels = get_channels(recorded_channels)
     print(f'Left channels: {left_channels}')
     print(f'Right channels: {right_channels}')
     
