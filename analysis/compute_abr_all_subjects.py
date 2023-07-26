@@ -24,7 +24,7 @@ def main(subs, skips, force) -> None:
             continue
 
         # skip if subject is already preprocessed
-        save_fp = f'../data/bids/derivatives/abr/sub-{sub}_task-{task}_run-{run}_abr.csv'
+        save_fp = f'../data/bids/derivatives/abr/sub-{sub}_task-{task}_run-{run}_abr.pkl'
         if os.path.isfile(save_fp) and not force:
             print(f"Subject {sub} run {run} is already preprocessed")
             continue
