@@ -35,7 +35,7 @@ def main(fpath, sub, task, run) -> None:
     
     # Rename channels according to aux-label-remapping.csv
     print("Renaming aux channels")
-    raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv')
+    raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv') # First number in tag is left channel
     raw.rename_channels(remap_dict)
     raw.set_channel_types({'Left': 'stim', 'Right': 'stim'})
     raw.set_channel_types({'leog': 'eeg', 'reog', 'eeg'})
