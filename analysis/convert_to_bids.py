@@ -38,7 +38,7 @@ def main(fpath, sub, task, run) -> None:
     raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv') # First number in tag is left channel
     raw.rename_channels(remap_dict)
     raw.set_channel_types({'Left': 'stim', 'Right': 'stim'})
-    raw.set_channel_types({'leog': 'eeg', 'reog', 'eeg'})
+    raw.set_channel_types({'leog': 'eeg', 'reog': 'eeg'})
 
     # add some info BIDS will want
     print("Add line_freq to raw.info")
