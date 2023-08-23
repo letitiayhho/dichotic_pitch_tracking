@@ -14,9 +14,9 @@ def main(subs, skips) -> None:
     for (fpath, sub, task, run) in iter_raw_paths(RAW_DIR):
 
         # skip bad subjects
-        #if sub in BAD_SUBS:
-            #print(f'Bad subject {sub}, skipping')
-            #continue
+        if sub in BAD_SUBS:
+            print(f'Bad subject {sub}, skipping')
+            continue
 
         # skip if subs were listed and this sub is not included
         if bool(subs) and sub not in subs:

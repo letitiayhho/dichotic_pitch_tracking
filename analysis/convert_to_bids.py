@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-#SBATCH --time=00:05:00
-#SBATCH --partition=broadwl
+#SBATCH --time=00:05:00 # 5 for most subs, 10 for the rest
+#SBATCH --partition=broadwl # broadwl for most subs, bigmem2 for rest
 #SBATCH --ntasks=1
-#SBATCH --mem-per-cpu=64G # 64 enough for most subs
+#SBATCH --mem-per-cpu=50G # 50 enough for most subs, 80 for rest
 #SBATCH --mail-type=all
 #SBATCH --mail-user=letitiayhho@uchicago.edu
 #SBATCH --output=logs/convert-to-bids_%j.log
@@ -38,7 +38,6 @@ def main(fpath, sub, task, run) -> None:
     raw, remap_dict = remap_aux_labels(sub, raw, 'aux-label-remapping.csv') # First number in tag is left channel
     raw.rename_channels(remap_dict)
     raw.set_channel_types({'Left': 'stim', 'Right': 'stim'})
-    raw.set_channel_types({'leog': 'eeg', 'reog': 'eeg'})
 
     # add some info BIDS will want
     print("Add line_freq to raw.info")
@@ -55,6 +54,10 @@ def main(fpath, sub, task, run) -> None:
     raw.add_reference_channels(ref_channels = ['Cz'])
     print(f"Channel names: {raw.ch_names}")
 
+    # Double check that eog channels are labeled as eeg
+    raw.set_channel_types({'leog': 'eeg', 'reog': 'eeg'})
+    print(f"Channel types: {raw.get_channel_types()}")
+    
     # Checks
     n_channels = len(raw.ch_names)
     print(f"Number of channels: {n_channels}")
