@@ -9,7 +9,7 @@ import time
 import mne
 from mne.preprocessing import ICA, create_eog_epochs
 from pyprep.prep_pipeline import PrepPipeline
-from autoreject import get_rejection_threshold, validation_curve
+from autoreject import get_rejection_threshold
 
 # BIDS utilities
 from mne_bids import BIDSPath, read_raw_bids
@@ -53,12 +53,10 @@ def read_events(raw):
     return events, events_ids
 
 def create_eogs(raw):
-    raw = mne.set_bipolar_reference(raw, anode = 'Fp1', cathode = 'leog', ch_name = 'eog1', drop_refs = False)
-    raw = mne.set_bipolar_reference(raw, anode = 'Fp2', cathode = 'reog', ch_name = 'eog2', drop_refs = False)
+    raw = mne.set_bipolar_reference(raw, anode = ['Fp1','Fp2'], cathode = ['leog','reog'], ch_name = ['eog1','eog2'], drop_refs = False)
     raw = raw.drop_channels(['reog', 'leog'])
     raw = raw.set_channel_types({'eog1': 'eog', 'eog2': 'eog'})
     return raw
-
 
 def resample(raw, fs, events): # Resample to a more manageable speed
     raw, events = raw.resample(fs, events = events)
