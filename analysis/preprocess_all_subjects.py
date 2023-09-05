@@ -26,7 +26,7 @@ def main(subs, skips, force) -> None:
 
         # skip if subject is already preprocessed
         fpath, sink = get_save_path(DERIV_ROOT, sub, task, run)
-        if os.path.isfile(fpath) and ~force:
+        if os.path.isfile(fpath) and not force:
             print(f"Subject {sub} run {run} is already preprocessed")
             continue
 
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     force = args.force
     subs = args.subs
     skips = args.skips
-    print(f"subs: {subs}, skips : {skips}")
+    print(f"subs: {subs}, skips : {skips}, force : {force}")
     if subs and skips:
         raise ValueError('Cannot specify both subs and skips')
     main(subs, skips, force)

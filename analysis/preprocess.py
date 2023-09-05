@@ -24,9 +24,9 @@ def main(sub, task, run) -> None:
     print(sub, task, run)
     raw = import_bids_data(BIDS_ROOT, sub, task, run)
     events, event_ids = read_events(raw)
+    raw.load_data()
 
     # Create virtual EOGs
-    raw.load_data()
     raw = create_eogs(raw)
 
     # Resampling and PREP
